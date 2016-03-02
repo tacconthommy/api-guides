@@ -271,8 +271,8 @@ html, body {
   // transparent background.
   // I know, it's hackish, but it's the simplist way to make the left
   // half of the content always this background color.
-  .dark-box {
-    width: $examples-width;
+  // width: $examples-width;
+  .dark-box {    
     background-color: $examples-bg;
     position: absolute;
     right: 0;
@@ -520,6 +520,9 @@ html, body {
 ////////////////////////////////////////////////////////////////////////////////
 // This is all the stuff that appears in the right half of the page
 
+//    width: $examples-width;
+    // float:right;
+    
 .content {
   pre, blockquote {
     background-color: $code-bg;
@@ -527,9 +530,9 @@ html, body {
 
     padding: 2em $main-padding;
     margin: 0;
-    width: $examples-width;
+    width: auto;
 
-    float:right;
+	float:none;
     clear:right;
 
     box-sizing: border-box;
