@@ -3,8 +3,6 @@ title: API Reference
 
 language_tabs:
   - shell
-  - php
-  - python
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -12,6 +10,7 @@ toc_footers:
 
 includes:
   - errors
+  - entities
 
 search: true
 ---
@@ -30,7 +29,7 @@ Example call:
 curl http://<url>/v1/users/{user_uuid}/transactions?created_at_from=2015-01-01T00:00:00Z -H 'Content-Type: application/json' -H 'Authorization: Bearer <Access-Token>'
 ```
 
-## Getting access to the itembase API
+# Getting Started
 
 1. To use any API provided by itembase, you have to [register your client](/api/clients) with our servers.
 2. To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, [you need to authorize](auth) with this information:
@@ -41,7 +40,7 @@ We are following the Oauth2 standard. Check out [this excellent video tutorial b
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
 * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
 
-## Use Cases
+## Activation or Authorization?
 In summary, while the authorization is always necessary for a basic connection to our API, the 2 activation steps might be optional for you, if you do not need any data besides basic user information:
 
 |Use case|Implement authorization (OAuth)|Implement activation|
