@@ -3,7 +3,7 @@ title: API Reference
 
 language_tabs:
   - shell
-  - ruby
+  - php
   - python
 
 toc_footers:
@@ -16,153 +16,41 @@ includes:
 search: true
 ---
 
-# Introduction
+# tl;dr
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+You need to [register  your application](/api/clients) to get a client_id.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to <a href="https://bitbucket.org/itembase/data-connect-public">the schema repository for a list of entities</a> and their json schema definitions. There are four entity types: Transaction, Product, Buyer and Profile. Entities that originate from the same data connection have the same <i>source_id</i>. Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+Example call:
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl http://<url>/v1/users/{user_uuid}/transactions?created_at_from=2015-01-01T00:00:00Z -H 'Content-Type: application/json' -H 'Authorization: Bearer <Access-Token>'
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+## Getting access to the itembase API
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+1. To use any API provided by itembase, you have to [register your client](/api/clients) with our servers.
+2. To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, [you need to authorize](auth) with this information:
+* A *client id* which identifies your client with the server (one for sandbox, one for production)
+* A *client secret* which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and **never expose it** to a client</aside>
+* One or more *redirect uris* (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
+We are following the Oauth2 standard. Check out [this excellent video tutorial by KnpUniversity](https://www.youtube.com/watch?v=io_r-0e3Qcw) which explains OAuth2 very well.
+3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
+* An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+## Use Cases
+In summary, while the authorization is always necessary for a basic connection to our API, the 2 activation steps might be optional for you, if you do not need any data besides basic user information:
 
-`Authorization: meowmeowmeow`
+|Use case|Implement authorization (OAuth)|Implement activation|
+|---|---|---|
+|Use itembase as login/registration system|yes|no|
+|Request basic user information|yes|no|
+|Get access to itembase APIs|yes|yes|
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+It doesn't matter if the process is initiated from the third party (e.g. with a **connect with itembase** button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.
 
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+![itembase authentication and activation](http://developers.itembase.com/images/auth_activation.png)
 
