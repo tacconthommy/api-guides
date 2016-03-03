@@ -24,7 +24,7 @@ You can issue (oauth2 authorized) range queries by datetimes (using created_at_f
 Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. 
 
 A first example:
-<p align="center"><iframe height="480" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p>
+<p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p>
 
 Example source:
 
