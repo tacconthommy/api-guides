@@ -226,7 +226,55 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 
 <p><img alt="itembase authentication and activation" src="http://developers.itembase.com/images/auth_activation.png" /></p>
 
-<h2 id="make-your-data-available-via-the-api">Make your data available via the API</h2>
+<h1 id="sandbox-vs-production">Sandbox vs Production</h1>
+
+<p>We have versions for all of our services on our Sandbox and Production system.
+You can find the relevant URLs here:</p>
+
+<table><thead>
+<tr>
+<th>Type</th>
+<th>Production</th>
+<th>Sandbox</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OAuth2 auth URL</td>
+<td>https://accounts.itembase.com/oauth/v2/auth</td>
+<td>http://sandbox.accounts.itembase.io/oauth/v2/auth</td>
+</tr>
+<tr>
+<td>OAuth2 token URL</td>
+<td>https://accounts.itembase.com/oauth/v2/token</td>
+<td>http://sandbox.accounts.itembase.io/oauth/v2/token</td>
+</tr>
+<tr>
+<td>User info URL</td>
+<td>https://users.itembase.com/v1/me</td>
+<td>http://sandbox.users.itembase.io/v1/me</td>
+</tr>
+<tr>
+<td>Activation endpoint</td>
+<td>https://solutionservice.itembase.com</td>
+<td>http://sandbox.solutionservice.itembase.io</td>
+</tr>
+<tr>
+<td>API endpoint</td>
+<td>https://api.itembase.io</td>
+<td>http://sandbox.api.itembase.io</td>
+</tr>
+</tbody></table>
+
+<p>Transport in production system is over HTTPS.</p>
+
+<h1 id="connecting-your-shop">Connecting Your Shop</h1>
+
+<p>In order to access your shop&rsquo;s data (or grant a connected solution provider access) via our API you can use the wizard in <a href="http://connect.itembase.com/#/ib/connect/platforms">our solution portal</a>. Out-of-the-box you can connect to any platform-based shop (like eBay, shopify or bigcommerce). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop&rsquo;s data and then tell our connectors to collect and forward the data to our API. In order to access the data yourself, you will need to implement your own client and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside></p>
+
+<p>Data from your shop is made available via our API using our <em>connectors</em> which use a private, internal API. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
+<aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside></p>
+
+<h1 id="getting-all-new-and-updated-products">Getting All New and Updated Products</h1>
 
           <h1 id="errors">Errors</h1>
 
