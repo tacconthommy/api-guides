@@ -128,23 +128,58 @@
 <p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p></p>
 
 <p>Example source:</p>
-<pre class="highlight shell"><code>curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span>clear
-curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
+<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+
+clear
 <span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"uncompressed http request. response is a json with well-defined http response codes."</span>
+<span class="nb">echo</span> <span class="s2">"let's do an uncompressed http request."</span>
+<span class="nb">echo</span> <span class="s2">"we will aim for a non existing user to provoke a 404."</span>
 <span class="nb">echo</span> <span class="s2">""</span>
-sleep 2
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 3
+curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq . 
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
+sleep 1
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
+sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
 <span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"auto-negotiated compression enabled!"</span>
 <span class="nb">echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
 <span class="nb">echo</span> <span class="s2">""</span>
-sleep 2
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
 <span class="nb">echo</span> <span class="s2">""</span>
+sleep 2
+<span class="nb">echo</span> <span class="s2">"awesome. thanks for watching!"</span>
+<span class="nb">echo</span> <span class="s2">"- the itembase team"</span>
 <span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"awesome. thanks for watching."</span>
-</code></pre>
+cat &lt;&lt; <span class="s2">"EOF"</span>  
+  ___  __       _                       _                        
+ |__ <span class="se">\/</span>_ |     | |                     | |                       
+    <span class="o">)</span> <span class="o">||</span> | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
+   / / | |/ __|| __|  / __|/ _ <span class="se">\|</span> <span class="s1">'_ \ | __|| | | || '</span>__|| | | | 
+  / /_ | |<span class="se">\_</span>_ <span class="se">\|</span> |_  | <span class="o">(</span>__|  __/| | | <span class="o">||</span> |_ | |_| <span class="o">||</span> |   | |_| | 
+ |____||_||___/ <span class="se">\_</span>_|  <span class="se">\_</span>__|<span class="se">\_</span>__||_| |_| <span class="se">\_</span>_| <span class="se">\_</span>_,_||_|    <span class="se">\_</span>_, | 
+         _____                                             __/ | 
+        / ____|                                           |___/  
+   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
+  / _ <span class="se">\|</span> |     / _ <span class="se">\ </span>| <span class="s1">'_ ` _ \ | '</span>_ <span class="sb">`</span> _ <span class="se">\ </span> / _ <span class="se">\|</span> <span class="s1">'__|/ __|/ _ \
+ |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
+  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
+
+EOF
+echo ""
+echo ""
+
+
+</span></code></pre>
 
 <h1 id="getting-started">Getting Started</h1>
 
@@ -190,6 +225,8 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <p>It doesn&rsquo;t matter if the process is initiated from the third party (e.g. with a <strong>connect with itembase</strong> button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.</p>
 
 <p><img alt="itembase authentication and activation" src="http://developers.itembase.com/images/auth_activation.png" /></p>
+
+<h2 id="make-your-data-available-via-the-api">Make your data available via the API</h2>
 
           <h1 id="errors">Errors</h1>
 
