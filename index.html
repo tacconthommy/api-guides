@@ -194,38 +194,6 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <li>An additional <em>redirect uri</em> that is known on our side and where the activation endpoint will redirect after the process finished.</li>
 </ol>
 
-<h2 id="activation-or-authorization">Activation or Authorization?</h2>
-
-<p>In summary, while the authorization is always necessary for a basic connection to our API, the 2 activation steps might be optional for you, if you do not need any data besides basic user information:</p>
-
-<table><thead>
-<tr>
-<th>Use case</th>
-<th>Implement authorization (OAuth)</th>
-<th>Implement activation</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Use itembase as login/registration system</td>
-<td>yes</td>
-<td>no</td>
-</tr>
-<tr>
-<td>Request basic user information</td>
-<td>yes</td>
-<td>no</td>
-</tr>
-<tr>
-<td>Get access to itembase APIs</td>
-<td>yes</td>
-<td>yes</td>
-</tr>
-</tbody></table>
-
-<p>It doesn&rsquo;t matter if the process is initiated from the third party (e.g. with a <strong>connect with itembase</strong> button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.</p>
-
-<p><img alt="itembase authentication and activation" src="http://developers.itembase.com/images/auth_activation.png" /></p>
-
 <h1 id="sandbox-vs-production">Sandbox vs Production</h1>
 
 <p>We have versions for all of our services on our Sandbox and Production system.
@@ -265,7 +233,7 @@ You can find the relevant URLs here:</p>
 </tr>
 </tbody></table>
 
-<p>Transport in production system is over HTTPS.</p>
+<p>Transport in the production system is over HTTPS.</p>
 
 <h1 id="accessing-your-shop-data">Accessing Your Shop Data</h1>
 
@@ -275,6 +243,214 @@ You can find the relevant URLs here:</p>
 <aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside></p>
 
 <h1 id="getting-all-new-and-updated-products">Getting All New and Updated Products</h1>
+
+<p>Assuming that you already obtained a valid access token and activated your solution for a user:</p>
+
+<ul>
+<li><code class="prettyprint">access_token</code>: your OAuth2 client can get this using its client_id and refresh token</li>
+<li><code class="prettyprint">user_id</code>: the uuid of the user that has granted you access</li>
+<li><code class="prettyprint">base_url</code>: http://sandbox.api.itembase.io/v1/users</li>
+<li><code class="prettyprint">resource</code>: the resource you want to access, like &ldquo;products&rdquo;</li>
+</ul>
+
+<p>All resources expose created_at_from/-to and updated_at_from/to query parameter that can easily be used to get all new and updated entities. Just make sure to set a &ldquo;to&rdquo; parameter so that you can reuse it in your next scheduled GET call. See our api reference (above) for more details.<aside class="success">We are currently working on using HTTP2&rsquo;s server side push functionality, to make scheduled GET jobs unncessary.</aside></p>
+<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+
+access_token <span class="o">=</span> &lt; generate this using your oauth2.0 clients refresh token <span class="k">for </span>the given user &gt;
+current_datetime <span class="o">=</span> &lt; generate the current datetime <span class="k">in </span>ISO 8601 format &gt;
+last_check_datetime <span class="o">=</span> &lt; this is the last <span class="nb">time </span>the script was run, as date <span class="nb">time </span><span class="k">in </span>ISO 8601 format &gt;
+user_id <span class="o">=</span> &lt; the id of the user that has granted you access &gt;
+resource <span class="o">=</span> &lt; the name of the resource you want to get &gt;
+
+<span class="nv">auth_header</span><span class="o">=</span><span class="s2">"Authorization: Bearer </span><span class="nv">$access_token</span><span class="s2">"</span>
+<span class="nv">url</span><span class="o">=</span><span class="s2">"&lt;base_url&gt;/&lt;user_id&gt;/</span><span class="nv">$resource</span><span class="s2">?created_at_from=</span><span class="nv">$last_check_datetime</span><span class="s2">&amp;updated_at_to=</span><span class="nv">$current_datetime</span><span class="s2">"</span>
+
+curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="nv">$auth_header</span> <span class="nv">$url</span> | jq .
+</code></pre>
+
+<h1 id="authorization-and-authentication">Authorization and authentication</h1>
+
+<p>We use OAuth 2.0 for authorization. Our auth server at <code class="prettyprint">accounts.itembase.com</code> combines an OAuth server that follows the standardized behaviour described in <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a> and a login server for user authentication.</p>
+
+<p>The following steps are necessary when a user authorizes your client to request data for his account from the itembase API. It is assumed that you follow the <code class="prettyprint">authorization_code</code> grant type / flow. Other flows work according to <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a>.</p>
+
+<h2 id="activation-or-authorization">Activation or Authorization?</h2>
+
+<p>While the authorization is always necessary for a basic connection to our API, the activation steps might be optional for you, if you do not need any data besides basic user information. Please refer to this overview:</p>
+
+<table><thead>
+<tr>
+<th>Use case</th>
+<th>Implement authorization (OAuth)</th>
+<th>Implement activation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Use itembase as login/registration system</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Request basic user information</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Get access to itembase APIs</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>It doesn&rsquo;t matter if the process is initiated from the third party (e.g. with a <strong>connect with itembase</strong> button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.</p>
+
+<p><img alt="itembase authentication and activation" src="http://developers.itembase.com/images/auth_activation.png" /></p>
+
+<h2 id="about-scopes">About Scopes</h2>
+
+<p>A scope describes what resources you are able to access and in which way (read, create, edit). During the autorization process they are shown to the user in a readable form. Currently itembase supports the following scopes:</p>
+
+<table><thead>
+<tr>
+<th>Scope item</th>
+<th>Readable form</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user.minimal</td>
+<td>Read general user information</td>
+<td>Information include e.g. user id, mail address etc. Needed for the /me call after authorization – Should always be included</td>
+</tr>
+<tr>
+<td>connection.transaction</td>
+<td>Read transactions from connected platforms</td>
+<td>Get access to transaction data of connected shops</td>
+</tr>
+<tr>
+<td>connection.product</td>
+<td>Read product data from connected platforms</td>
+<td>Get access to product data of connected shops</td>
+</tr>
+<tr>
+<td>connection.profile</td>
+<td>Read profile data from connected platforms</td>
+<td>Get access to specific account data of a connected shop</td>
+</tr>
+<tr>
+<td>connection.buyer</td>
+<td>Read customer information from connected platforms</td>
+<td>Get access to customer data of a connected shop</td>
+</tr>
+</tbody></table>
+
+<p>The scope is a space seperated list of the scope items listed above. A valid example would be:</p>
+
+<p>user.minimal connection.transaction</p>
+
+<p>This would give your client access to APIs that return basic user information and transaction data for user defined shop connections.</p>
+
+<h2 id="initiating-the-process">Initiating the process</h2>
+
+<p>You need to integrate a button in the frontend of your system that the user can click to connect his itembase account with your client. If he clicks it, you need to redirect to the authentication URL of our accounts server with your <em>client id</em>:</p>
+
+<p>https://accounts.itembase.com/oauth/v2/auth?response_type=code&amp;client_id=your_client_id&amp;scope=user.minimal&amp;redirect_uri=http://your.service/connect/itembase&amp;grant_type=authorization_code</p>
+
+<p>Replace the placeholders with your actual data: <code class="prettyprint">your_client_id</code> becomes the client id you got from itembase, <code class="prettyprint">http://your.service/connect/itembase</code> the redirect URI you registered for your client. Also set the scope you need as value of the <code class="prettyprint">scope</code> parameter.</p>
+
+<h2 id="the-authorization-and-authentication-step">The authorization and authentication step</h2>
+
+<p>After the redirect to the authentication URL of the itembase accounts server, the itembase user will be authenticated. Depending on his login status, he may need to enter his username and password or even create a new account if he has none yet. This happens completely on our side.</p>
+
+<p>When the user was authenticated successfully, he will see a website that asks him to accept or decline that your client wants to have access to his data on itembase. The dialogue lists all scopes you requested initially.</p>
+
+<p>In case of an error (e.g. if the user does not accept), the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> with an error response:</p>
+
+<p>http://your.service/connect/itembase?error=access_denied</p>
+
+<p>If the user accepted your client, the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> including an authorization code (parameter <code class="prettyprint">code</code>):</p>
+
+<p>http://your.service/connect/itembase?code=1234someauthcode</p>
+
+<p>This code is only valid for some seconds and can only be used once. You need it to obtain a refresh token and an access token.</p>
+
+<h2 id="obtaining-your-first-tokens">Obtaining your first tokens</h2>
+
+<p>With the authorization code you can request an access token and a refresh token the first time. This request goes to the accounts server&rsquo;s token endpoint and <strong>has to be sent server side</strong> since it includes your client secret in this flow:</p>
+
+<p>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=authorization_code&amp;code=1234someauthcode&amp;redirect_uri=http://your.service/connect/</p>
+
+<p>The <code class="prettyprint">redirect_uri</code> will be ignored in <em>authorization_code</em> flow, but still has to be given. Please use an allowed redirect_uri (e.g. the one from the <em>auth</em> call) for this. You will receice a JSON response that returns your tokens:</p>
+
+<p>{
+        &ldquo;access_token&rdquo;: &ldquo;MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj&rdquo;,
+        &ldquo;expires_in&rdquo;: 2592000,
+        &ldquo;token_type&rdquo;: &ldquo;bearer&rdquo;,
+        &ldquo;scope&rdquo;: &ldquo;user.minimal&rdquo;,
+        &ldquo;refresh_token&rdquo;: &ldquo;ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj&rdquo;
+    }</p>
+
+<p>The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs. Tokens expire after a while:</p>
+
+<table><thead>
+<tr>
+<th>Token type</th>
+<th>Expires in</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Access token</td>
+<td>1 hour</td>
+</tr>
+<tr>
+<td>Refresh token</td>
+<td>~34 days</td>
+</tr>
+</tbody></table>
+
+<h2 id="obtaining-new-access-tokens-with-refresh-tokens">Obtaining new access tokens with refresh tokens</h2>
+
+<p>If an acces token has expired, you can use a refresh token you obtained with it to get a new one. This works once again with the token endpoint of the accounts server:</p>
+
+<p>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#</p>
+
+<p>This call returns a JSON with a new set of tokens that replaces the old pair.</p>
+
+<p>{
+        &ldquo;access_token&rdquo;: &ldquo;MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj&rdquo;,
+        &ldquo;expires_in&rdquo;: 2592000,
+        &ldquo;token_type&rdquo;: &ldquo;bearer&rdquo;,
+        &ldquo;scope&rdquo;: &ldquo;user.minimal&rdquo;,
+        &ldquo;refresh_token&rdquo;: &ldquo;ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj&rdquo;
+    }</p>
+
+<p>You should obtain a new access token latest before your refresh token expires. If the refresh token expires as well, you will need to repeat the authorization/authentication process with the user involved to obtain a new pair of tokens.</p>
+
+<h2 id="getting-basic-user-information">Getting basic user information</h2>
+
+<p>For almost all API calls at itembase you need a user id. To obtain the one that your AccessToken is valid for, there is an user info call that you can use if <code class="prettyprint">user.minimal</code> is part of your scope:</p>
+
+<p>Request (GET):
+    https://users.itembase.com/v1/me</p>
+
+<p>Header:
+    Authorization: Bearer your_access_token</p>
+
+<p>This responds with basic user information, one of them is the <code class="prettyprint">uuid</code> of the itembase user:</p>
+
+<p>{
+        &ldquo;uuid&rdquo;: &ldquo;a4b91ee7-ec1a-49b9-afce-371dc8797749&rdquo;,
+        &ldquo;username&rdquo;: &ldquo;thommy&rdquo;,
+        &ldquo;email&rdquo;: &ldquo;tb@itembase.biz&rdquo;,
+        &ldquo;first_name&rdquo;: &ldquo;Thomas&rdquo;,
+        &ldquo;middle_name&rdquo;: null,
+        &ldquo;last_name&rdquo;: &ldquo;Bretzke&rdquo;,
+        &ldquo;name_format&rdquo;: &ldquo;first middle last&rdquo;,
+        &ldquo;locale&rdquo;: &ldquo;en&rdquo;,
+        &ldquo;preferred_currency&rdquo;: &ldquo;EUR&rdquo;,
+    }</p>
+
+<p>We recommend you to store your access token and refresh token securely on your server along with the <code class="prettyprint">uuid</code> they are valid for. You can also create a user on your side or match the one that was currently logged in with the data you receive from this call.</p>
 
           <h1 id="errors">Errors</h1>
 
