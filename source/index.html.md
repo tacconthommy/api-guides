@@ -29,22 +29,57 @@ A first example:
 Example source:
 
 ```shell
-curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"clear
-curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
+#!/bin/bash
+
+clear
 echo ""
-echo "uncompressed http request. response is a json with well-defined http response codes."
+echo "let's do an uncompressed http request."
+echo "we will aim for a non existing user to provoke a 404."
 echo ""
-sleep 2
+echo ""
+echo ""
+echo ""
+sleep 3
+curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq . 
+echo ""
+echo "the expected response is a json with a well-defined http error code."
+sleep 1
+echo ""
+echo "the API supports auto-negotiated compression:"
+sleep 3
 curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
 echo ""
-echo "auto-negotiated compression enabled!"
 echo "let's fetch us some transaction from the ebay sandbox.."
 echo ""
-sleep 2
+echo ""
+echo ""
+echo ""
+sleep 3
 curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b" | jq .
 echo ""
+sleep 2
+echo "awesome. thanks for watching!"
+echo "- the itembase team"
 echo ""
-echo "awesome. thanks for watching."
+cat << "EOF"  
+  ___  __       _                       _                        
+ |__ \/_ |     | |                     | |                       
+    ) || | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
+   / / | |/ __|| __|  / __|/ _ \| '_ \ | __|| | | || '__|| | | | 
+  / /_ | |\__ \| |_  | (__|  __/| | | || |_ | |_| || |   | |_| | 
+ |____||_||___/ \__|  \___|\___||_| |_| \__| \__,_||_|    \__, | 
+         _____                                             __/ | 
+        / ____|                                           |___/  
+   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
+  / _ \| |     / _ \ | '_ ` _ \ | '_ ` _ \  / _ \| '__|/ __|/ _ \
+ |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
+  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
+                                                                 
+EOF
+echo ""
+echo ""
+
+
 ```
 
 # Getting Started
@@ -71,3 +106,4 @@ It doesn't matter if the process is initiated from the third party (e.g. with a 
 
 ![itembase authentication and activation](http://developers.itembase.com/images/auth_activation.png)
 
+## Make your data available via the API
