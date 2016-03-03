@@ -122,10 +122,28 @@
 
 <p>You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.</p>
 
-<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to <a href="https://bitbucket.org/itembase/data-connect-public">the schema repository for a list of entities</a> and their json schema definitions. There are four entity types: Transaction, Product, Buyer and Profile. Entities that originate from the same data connection have the same <i>source_id</i>. Get the Profile resource which describes the user&rsquo;s profile on the remote platform (e.g. a seller&rsquo;s account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</p>
+<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. </p>
 
-<p>Example call:</p>
-<pre class="highlight shell"><code>curl http://&lt;url&gt;/v1/users/<span class="o">{</span>user_uuid<span class="o">}</span>/transactions?created_at_from<span class="o">=</span>2015-01-01T00:00:00Z -H <span class="s1">'Content-Type: application/json'</span> -H <span class="s1">'Authorization: Bearer &lt;Access-Token&gt;'</span>
+<p>A first example:
+<p align="center"><iframe height="480" src="https://showterm.io/703e6eacbb1d568fadc58" width="640"></iframe></p></p>
+
+<p>Example source:</p>
+<pre class="highlight shell"><code>curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span>clear
+curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"uncompressed http request. response is a json with well-defined http response codes."</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 2
+curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"auto-negotiated compression enabled!"</span>
+<span class="nb">echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 2
+curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"awesome. thanks for watching."</span>
 </code></pre>
 
 <h1 id="getting-started">Getting Started</h1>
@@ -215,13 +233,15 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 
           <h1 id="entities">Entities</h1>
 
-<p>The itembase API /v1 uses the following entities (in Json Schema notation):</p>
+<p><a name="entities"></a>The itembase API /v1 uses the following entities (in Json Schema notation).</p>
 
-<p>There are four main entity types: Transaction, Product, Buyer and Profile. Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user&rsquo;s profile on the remote platform (e.g. a seller&rsquo;s account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</p>
+<p>There are four main entity types: Transaction, Product, Buyer and Profile.</p>
+
+<aside class="notice">Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user&rsquo;s profile on the remote platform (e.g. a seller&rsquo;s account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</aside>
 
 <h2 id="profile-version-1-2">Profile Version 1.2</h2>
 
-<p>The Profile resource describes the connected profile on the remote platform (e.g. an eBay seller&rsquo;s account, a Magento installation&rsquo;s shop information).</p>
+<p>The Profile resource describes the connected profile on the remote platform (e.g. an eBay seller&rsquo;s account, a Magento installation&rsquo;s shop information). Get the Profile resource which describes the user&rsquo;s profile on the remote platform (e.g. a seller&rsquo;s account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</p>
 <pre class="highlight plaintext"><code>{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.com/v1/profile.v1.2.schema.json",
