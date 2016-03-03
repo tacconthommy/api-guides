@@ -120,10 +120,10 @@ You can find the relevant URLs here:
 
 Transport in production system is over HTTPS.
 
-# Connecting Your Shop
-In order to access your shop's data (or grant a connected solution provider access) via our API you can use the wizard in [our solution portal](http://connect.itembase.com/#/ib/connect/platforms). Out-of-the-box you can connect to any platform-based shop (like eBay, shopify or bigcommerce). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop's data and then tell our connectors to collect and forward the data to our API. In order to access the data yourself, you will need to implement your own client and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside>
+# Accessing Your Shop Data
+Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in [our solution portal](http://connect.itembase.com/#/ib/connect/platforms). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop's data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the "activation flow" (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside>
 
-Data from your shop is made available via our API using our *connectors* which use a private, internal API. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
+Data from your shop is made available via our API using our *connectors* which use a private, internal API for writing data. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
 <aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside>
 
 # Getting All New and Updated Products
