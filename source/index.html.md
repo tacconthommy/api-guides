@@ -106,4 +106,24 @@ It doesn't matter if the process is initiated from the third party (e.g. with a 
 
 ![itembase authentication and activation](http://developers.itembase.com/images/auth_activation.png)
 
-## Make your data available via the API
+# Sandbox vs Production
+We have versions for all of our services on our Sandbox and Production system.
+You can find the relevant URLs here:
+
+|Type|Production|Sandbox|
+|---|---|---|
+|OAuth2 auth URL|https://accounts.itembase.com/oauth/v2/auth|http://sandbox.accounts.itembase.io/oauth/v2/auth|
+|OAuth2 token URL|https://accounts.itembase.com/oauth/v2/token|http://sandbox.accounts.itembase.io/oauth/v2/token|
+|User info URL|https://users.itembase.com/v1/me|http://sandbox.users.itembase.io/v1/me|
+|Activation endpoint|https://solutionservice.itembase.com|http://sandbox.solutionservice.itembase.io|
+|API endpoint|https://api.itembase.io|http://sandbox.api.itembase.io|
+
+Transport in production system is over HTTPS.
+
+# Connecting Your Shop
+In order to access your shop's data (or grant a connected solution provider access) via our API you can use the wizard in [our solution portal](http://connect.itembase.com/#/ib/connect/platforms). Out-of-the-box you can connect to any platform-based shop (like eBay, shopify or bigcommerce). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop's data and then tell our connectors to collect and forward the data to our API. In order to access the data yourself, you will need to implement your own client and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside>
+
+Data from your shop is made available via our API using our *connectors* which use a private, internal API. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
+<aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside>
+
+# Getting All New and Updated Products
