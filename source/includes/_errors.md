@@ -1,7 +1,15 @@
 # Errors
 
-The itembase API uses the following error codes:
+Errors are returned as an error message object along with the appropriate HTTP status code:
 
+```shell
+{                                                                                                                                                                                                                                         
+  "message": "Not found.",                                                                                                                                                                                                                
+  "code": 404                                                                                                                                                                                                                             
+} 
+```
+
+The following error codes are used:
 
 Error Code | Meaning
 ---------- | -------
