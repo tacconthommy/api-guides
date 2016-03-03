@@ -278,7 +278,14 @@ You can find the relevant URLs here:</p>
 
           <h1 id="errors">Errors</h1>
 
-<p>The itembase API uses the following error codes:</p>
+<p>Errors are returned as an error message object along with the appropriate HTTP status code:</p>
+<pre class="highlight shell"><code><span class="o">{</span>                                                                                                                                                                                                                                         
+  <span class="s2">"message"</span>: <span class="s2">"Not found."</span>,                                                                                                                                                                                                                
+  <span class="s2">"code"</span>: 404                                                                                                                                                                                                                             
+<span class="o">}</span> 
+</code></pre>
+
+<p>The following error codes are used:</p>
 
 <table><thead>
 <tr>
