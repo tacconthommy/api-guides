@@ -24,9 +24,10 @@ You can issue (oauth2 authorized) range queries by datetimes (using created_at_f
 Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. 
 
 A first example:
-<iframe height="480" src="https://showterm.io/703e6eacbb1d568fadc58" width="640"></iframe>
+<p align="center"><iframe height="480" src="https://showterm.io/bf63eab44877fa03e36c9" width="640"></iframe></p>
 
 Example source:
+
 ```shell
 curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"clear
 curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
@@ -44,7 +45,6 @@ curl --compressed --verbose -X GET --header "Accept: application/json" --header 
 echo ""
 echo ""
 echo "awesome. thanks for watching."
-
 ```
 
 # Getting Started
