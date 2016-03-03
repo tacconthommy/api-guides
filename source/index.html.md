@@ -21,12 +21,30 @@ You need to [register  your application](/api/clients) to get a client_id.
 
 You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.
 
-Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to <a href="https://bitbucket.org/itembase/data-connect-public">the schema repository for a list of entities</a> and their json schema definitions. There are four entity types: Transaction, Product, Buyer and Profile. Entities that originate from the same data connection have the same <i>source_id</i>. Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.
+Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. 
 
-Example call:
+A first example:
+<iframe height="480" src="https://showterm.io/703e6eacbb1d568fadc58" width="640"></iframe>
 
+Example source:
 ```shell
-curl http://<url>/v1/users/{user_uuid}/transactions?created_at_from=2015-01-01T00:00:00Z -H 'Content-Type: application/json' -H 'Authorization: Bearer <Access-Token>'
+curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"clear
+curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
+echo ""
+echo "uncompressed http request. response is a json with well-defined http response codes."
+echo ""
+sleep 2
+curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
+echo ""
+echo "auto-negotiated compression enabled!"
+echo "let's fetch us some transaction from the ebay sandbox.."
+echo ""
+sleep 2
+curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b" | jq .
+echo ""
+echo ""
+echo "awesome. thanks for watching."
+
 ```
 
 # Getting Started

@@ -1,11 +1,12 @@
 # Entities
+<a name="entities"></a>The itembase API /v1 uses the following entities (in Json Schema notation).
 
-The itembase API /v1 uses the following entities (in Json Schema notation):
+There are four main entity types: Transaction, Product, Buyer and Profile.
 
-There are four main entity types: Transaction, Product, Buyer and Profile. Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.
+<aside class="notice">Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</aside>
 
 ## Profile Version 1.2
-The Profile resource describes the connected profile on the remote platform (e.g. an eBay seller's account, a Magento installation's shop information).
+The Profile resource describes the connected profile on the remote platform (e.g. an eBay seller's account, a Magento installation's shop information). Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.
 
 ```Json
 {
