@@ -25,6 +25,7 @@ under the License.
     <style>
       <%= Rouge::Themes::Base16::Monokai.render(:scope => '.highlight') %>
     </style>
+    <%= stylesheet_link_tag :bootstrap, type: :"text/css", rel: :stylesheet %>
     <%= stylesheet_link_tag :screen, media: :screen %>
     <%= stylesheet_link_tag :print, media: :print %>
     <% if current_page.data.search %>
@@ -32,6 +33,7 @@ under the License.
     <% else %>
       <%= javascript_include_tag  "all_nosearch" %>
     <% end %>
+    <%= javascript_include_tag  "scripts" %>
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
@@ -41,6 +43,50 @@ under the License.
         <%= image_tag('navbar.png') %>
       </span>
     </a>
+    <div class="head" id="header">
+        	<div class="container">
+            	<div class="logo pull-left">
+            		<a title="" href="index.html"><img class="white-logo" src="images/logo.png" alt="itembase"></a>
+            	</div>
+                
+                <div class="pull-right">
+                    <div class="navbar navbar-static-top bs-docs-nav" role="banner">
+                    <div class="navbar-header">
+                        <button id="nav-toggle" class="navbar-toggle collapsed" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <nav id="bs-navbar" class="" style="right: -300px;">
+                        <ul class="nav navbar-nav">
+                            <li><a href="product.html">Product</a></li>
+                            <li class="dropdown"><a href="api.html">API</a>
+                            	<ul class="container">
+                                	<li><a href="#">Guides</a></li>
+                                    <li><a href="#">API Docs</a></li>
+                                    <li><a href="#">Clients</a></li>
+                                    <li><a href="#">Report An Issue</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a href="#">Documentation</a>
+                            	<ul class="container">
+                                	<li><a href="#">Guides</a></li>
+                                    <li><a href="#">API Docs</a></li>
+                                    <li><a href="#">Clients</a></li>
+=                                </ul>
+                            </li>
+                            <li><a href="#">Log in</a></li>
+                            <li class="sign"><a href="#">Sign up</a></li>
+                        </ul>
+                    </nav>
+                 </div>
+                </div>
+            </div>
+        </div>
+    <div class="main-content">
+    <div class="container">
+       <div class="row">
+         <div class="col-sm-3">
     <div class="tocify-wrapper">
       <% if language_tabs %>
         <div class="lang-selector">
@@ -53,6 +99,8 @@ under the License.
           <% end %>
         </div>
       <% end %>
+    
+ 
       <% if current_page.data.search %>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -69,6 +117,8 @@ under the License.
         </ul>
       <% end %>
     </div>
+   </div>
+    <div class="col-sm-9">
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
@@ -90,6 +140,25 @@ under the License.
           </div>
         <% end %>
       </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="footer text-center">
+    	<div class="container">
+        	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis <br>nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu M<br>fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            
+            <ul class="navigation">
+            	<li><a href="#">Pricing</a></li>
+                <li><a href="#">Contact sales</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Security</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Press</a></li>
+                <li><a href="#">Careers</a></li>
+            </ul>
+        </div>
     </div>
   </body>
 </html>
