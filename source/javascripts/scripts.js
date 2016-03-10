@@ -43,7 +43,7 @@ var scrollPosition = $(window).scrollTop();
 		$('.tocify-wrapper').css('position','fixed').css('height',(windowHeight-footerHeight));
 	}
 	else {
-		$('.tocify-wrapper').css('position','relative');
+		$('.tocify-wrapper').css('position','absolute');
 	}
 		
 }
