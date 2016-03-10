@@ -650,11 +650,11 @@ a{ transition:all ease .3s; -moz-transition:all ease .3s; -ms-transition:all eas
     font-weight: 400;}
 p{ font-family:Arial, Helvetica, sans-serif;}
 ul li,ol li{ font-family:Arial, Helvetica, sans-serif;}
-h1{ font-size:51px; line-height:51px; color:#fff; margin-top:0; font-family: 'Slabo 13px', serif; font-weight:400;}
-h2{ font-size:35px; line-height:38px; color:#114061; margin-top:0; margin-bottom:42px; font-family: 'Slabo 13px', serif; font-weight:400;}
+h1{ font-size:51px; line-height:51px; color:#fff; margin-top:0; font-family: 'Lato', sans-serif; font-weight:700;}
+h2{ font-size:35px; line-height:38px; color:#114061; margin-top:0; margin-bottom:42px; font-family: 'Lato', sans-serif; font-weight:700;}
 p.lead{ font-size:21px; line-height:35px; text-align:center; margin-bottom:78px; color:#565656}
 p{ font-size:21px; line-height:35px; margin-bottom:17px; color:#565656}
-.innerpage .content h1,.innerpage .content h2, .innerpage .content h3,.innerpage .content h4,.innerpage .content h5,.innerpage .content h6{ color:#114061; font-family: 'Slabo 13px', serif; font-weight:400;}
+.innerpage .content h1,.innerpage .content h2, .innerpage .content h3,.innerpage .content h4,.innerpage .content h5,.innerpage .content h6{ color:#114061; font-family: 'Lato', sans-serif; font-weight:700;}
 h3{ font-size:31px; margin-top:0; margin-bottom:20px;}
 h4{ font-size:28px; margin-top:0; margin-bottom:20px;}
 h5{ font-size:25px; margin-top:0; margin-bottom:10px;}
@@ -696,9 +696,9 @@ iframe{ width:100%;}
 html,body{ background:#fff !important;}
 .tocify-wrapper .tocify-subheader{ background:#dee6eb;}
 .content{ box-sizing:border-box; background:#fff;}
-.content h2{ font-family: 'Slabo 13px', serif;  font-weight: 400;     font-size: 35px; line-height: 38px; color: #114061; margin-top: 20px; margin-bottom: 20px; border:0; padding-top:5px;}
+.content h2{ font-family: 'Lato', sans-serif; font-weight:700;    font-size: 35px; line-height: 38px; color: #114061; margin-top: 20px; margin-bottom: 20px; border:0; padding-top:5px;}
 	.content aside{ padding:10px; box-sizing:border-box; font-size:14px; line-height:18px; text-shadow:none;}
-	.content h1{ font-family: 'Slabo 13px', serif;  font-weight: 400;     font-size: 51px; line-height: 51px; color: #114061; margin-top: 20px; margin-bottom: 20px; border:0; background-image:none; padding-top:10px;}
+	.content h1{ font-family: 'Lato', sans-serif; font-weight:700;   font-size: 51px; line-height: 51px; color: #114061; margin-top: 20px; margin-bottom: 20px; border:0; background-image:none; padding-top:10px;}
 	.content  ol, .content  ul{ margin-left:21px;}
 	.page-wrapper{ float:none;}
 	.content pre, .content blockquote, iframe{ border:3px solid #5da9de; border-radius:0;}
@@ -711,9 +711,10 @@ html,body{ background:#fff !important;}
 	.tocify-wrapper ul, .tocify-wrapper li{ margin:0;}
 	.head{ background:url(../images/banner.jpg) no-repeat top center; position:relative; background-size:cover; height:146px;}
 	.footer {
-  padding: 45px 0 78px;
+  padding: 45px 0 78px 290px;
   border-top: 1px solid #d9d9d9;
 }
+.footer .container{ max-width:100%; width:100%;} 
 .footer p {
   font-size: 13px;
   line-height: 21px;
@@ -761,6 +762,7 @@ table{    overflow-wrap: break-word;word-wrap: break-word;}
 .content table{ word-break:break-word}
 pre code{ white-space:pre-line;}
 .nav>li>a:focus, .nav>li>a:hover{ background-color:transparent;}
+.tocify-wrapper{ height:100% !important;}
 @media(max-width:1600px)
 {
 	.content h1{
@@ -777,16 +779,21 @@ p, .content p, .content li, .content dt, .content dd{font-size: 16px;
 }
 .content li, .content dt, .content dd{ line-height:22px;}
 }
+@media(max-width:1300px)
+{
+	.footer p br{ display:none;}
+}
 @media(max-width:1200px)
 {
 	.tocify-wrapper{width: 250px;}
 	.page-wrapper{padding-left: 265px;}
+	.footer{ padding-left:250px;}
 }
 @media (max-width:991px){
 	
 
 .footer {
-    padding:40px 0;
+    padding:40px 0 0 200px;
 }
 .footer p br {
     display: none;
@@ -830,7 +837,7 @@ body,html{overflow:visible!important}
 .head{padding:10px 0;background:#184F71;z-index:2}
 .footer .navigation li a{margin:0;padding:0 10px}
 .footer .navigation li{margin-bottom:10px}
-.footer{padding-bottom:20px}
+.footer{padding:20px 0;}
 h2{font-size:24px;line-height:30px;margin-bottom:20px}
 .head .navbar,.head .navbar ul li{position:relative}
 .head .navbar ul li.dropdown ul{display:block;border:0;position:relative;top:auto;left:auto;right:auto;padding:0}
