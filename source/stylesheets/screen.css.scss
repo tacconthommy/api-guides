@@ -669,9 +669,9 @@ h6{ font-size:21px; margin-top:0; margin-bottom:10px; font-family:Arial, Helveti
 .innerpage .content ul{ padding:0; list-style:none; margin:0;}
 .innerpage .content ol{ padding-left:15px;}
 .content table{}
-.content table th{color:#114061; font-family: 'Slabo 13px', serif;font-weight:400; padding:8px; font-size:18px; line-height:24px;}
+.content table th{color:#114061; font-family: 'Lato', sans-serif;font-weight:400; padding:8px; font-size:18px; line-height:24px;}
 .content table tr td{ padding:8px; font-family: 'Lato', sans-serif; font-weight:400; font-size:16px; line-height:24px;color:#565656}
-h2{color:#114061; font-family: 'Slabo 13px', serif;font-weight:400}
+h2{color:#114061; font-family: 'Lato', sans-serif;font-weight:400}
 .main-content{ position:relative;}
 .tocify-wrapper>.search input{background: #ecf1f5!important;}
 .tocify-wrapper{ left:0 ;background: #ecf1f5!important; max-width:350px; width:100%; }
@@ -764,6 +764,7 @@ table{    overflow-wrap: break-word;word-wrap: break-word;}
 pre code{ white-space:pre-line;}
 .nav>li>a:focus, .nav>li>a:hover{ background-color:transparent;}
 .tocify-wrapper{ height:100% !important;}
+.tocify-wrapper>.search:before{ top:7px !important;}
 @media(max-width:1600px)
 {
 	.content h1{
