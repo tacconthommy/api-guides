@@ -633,6 +633,7 @@ p, .content p, .content li, .content dt, .content dd{font-family: 'Lato', sans-s
 .head .navbar ul li.dropdown.active ul {
   display: block;
 }
+.head .navbar ul li ul li.active a{ color:#fff;}
 .content code, .content pre{ font-size:14px; line-height:21px;}
 .content table tr td{ text-shadow:none !important;}
 .head .navbar ul li.dropdown.active > a:before, .head .navbar ul li.dropdown.active > a:after{ display:block;}
