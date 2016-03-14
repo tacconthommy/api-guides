@@ -93,6 +93,14 @@ We are following the Oauth2 standard. Check out [this excellent video tutorial b
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
 * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
 
+# Reporting Issues
+Naturally we aim to deliver a reliable, well-behaving and well-documented service. Please tell us if you stumble across an issue you believe we need to address. We have open sourced our documentation as well so that you can raise issues there as well. Please report issues or raise pull requests here:
+
+|Component|Link|Notes
+|---|---|---|
+|The **API** itself|[Report an Issue form](http://devportal.itembase.co:8083/contact/api_feedback)|Any of our public APIs. We working on a public issue tracker.|
+|*This* **Guides** section|[github.com/itembase/api-guides/issues](https://github.com/itembase/api-guides/issues)||
+|**API Documentation** section|[github.com/itembase/api-swagger/issues](https://github.com/itembase/api-guides/issues)|This is the swagger API explorer. Issues with the swagger-ui can be posted [here](https://github.com/swagger-api/swagger-ui).|
 
 # Sandbox vs Production
 We have versions for all of our services on our Sandbox and Production system.
