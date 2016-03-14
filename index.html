@@ -113,21 +113,23 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <nav id="bs-navbar" class="" style="right: -300px;">
+                    <nav id="bs-navbar">
                         <ul class="nav navbar-nav">
                             <li><a href="http://devportal.itembase.co:8083/products">Product</a></li>
-                            <li class="dropdown active"><a href="http://devportal.itembase.co:8083/api">API</a>
+                            <li class="dropdown"><a href="http://devportal.itembase.co:8083/api">API</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
+                                    <li><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li class="active"><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
                                     <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="http://itembase.github.io/api-guides/">Documentation</a>
+                            <li class="dropdown active"><a href="http://devportal.itembase.co:8000/api/docs">Documentation</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/google-logi">Clients</a></li>
+                                    <li><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li class="active"><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
                             <li class="login"><a href="http://devportal.itembase.co:8083/google-login">Login with itembase</a></li>
@@ -177,36 +179,36 @@
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 
 clear
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"let's do an uncompressed http request."</span>
+<span class="nb">echo
+echo</span> <span class="s2">"let's do an uncompressed http request."</span>
 <span class="nb">echo</span> <span class="s2">"we will aim for a non existing user to provoke a 404."</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 3
+<span class="nb">echo
+echo
+echo
+echo
+</span>sleep 3
 curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq . 
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
+<span class="nb">echo
+echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
 sleep 1
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
+<span class="nb">echo
+echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
 sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 3
+<span class="nb">echo
+echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
+<span class="nb">echo
+echo
+echo
+echo
+</span>sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 2
+<span class="nb">echo
+</span>sleep 2
 <span class="nb">echo</span> <span class="s2">"awesome. thanks for watching!"</span>
 <span class="nb">echo</span> <span class="s2">"- the itembase team"</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-cat &lt;&lt; <span class="s2">"EOF"</span>  
+<span class="nb">echo
+</span>cat &lt;&lt; <span class="s2">"EOF"</span>  
   ___  __       _                       _                        
  |__ <span class="se">\/</span>_ |     | |                     | |                       
     <span class="o">)</span> <span class="o">||</span> | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
@@ -221,8 +223,8 @@ cat &lt;&lt; <span class="s2">"EOF"</span>
   \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
 
 EOF
-echo ""
-echo ""
+echo
+echo
 
 
 </span></code></pre>
