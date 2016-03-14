@@ -21,7 +21,7 @@ You need to [register  your application](/api/clients) to get a client_id.
 
 You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.
 
-Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. 
+Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute.
 
 A first example:
 <p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p>
@@ -40,7 +40,7 @@ echo
 echo
 echo
 sleep 3
-curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq . 
+curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
 echo
 echo "the expected response is a json with a well-defined http error code."
 sleep 1
@@ -61,7 +61,7 @@ sleep 2
 echo "awesome. thanks for watching!"
 echo "- the itembase team"
 echo
-cat << "EOF"  
+cat << "EOF"
   ___  __       _                       _                        
  |__ \/_ |     | |                     | |                       
     ) || | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
@@ -73,7 +73,7 @@ cat << "EOF"
    ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
   / _ \| |     / _ \ | '_ ` _ \ | '_ ` _ \  / _ \| '__|/ __|/ _ \
  |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
-  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
+  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
                                                                  
 EOF
 echo
