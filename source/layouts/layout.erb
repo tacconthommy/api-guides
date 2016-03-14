@@ -20,7 +20,7 @@ under the License.
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title><%= current_page.data.title || "API Documentation" %></title>
+    <title><%= current_page.data.title || "API Guides" %></title>
 
     <style>
       <%= Rouge::Themes::Base16::Monokai.render(:scope => '.highlight') %>
@@ -56,21 +56,23 @@ under the License.
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <nav id="bs-navbar" class="" style="right: -300px;">
+                    <nav id="bs-navbar">
                         <ul class="nav navbar-nav">
                             <li><a href="http://devportal.itembase.co:8083/products">Product</a></li>
                             <li class="dropdown active"><a href="http://devportal.itembase.co:8083/api">API</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
+                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
                                     <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="http://itembase.github.io/api-guides/">Documentation</a>
+                            <li class="dropdown"><a href="http://devportal.itembase.co:8000/api/docs">Documentation</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/google-logi">Clients</a></li>
+                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
                             <li class="login"><a href="http://devportal.itembase.co:8083/google-login">Login with itembase</a></li>
