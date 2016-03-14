@@ -32,35 +32,35 @@ Example source:
 #!/bin/bash
 
 clear
-echo ""
+echo
 echo "let's do an uncompressed http request."
 echo "we will aim for a non existing user to provoke a 404."
-echo ""
-echo ""
-echo ""
-echo ""
+echo
+echo
+echo
+echo
 sleep 3
 curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq . 
-echo ""
+echo
 echo "the expected response is a json with a well-defined http error code."
 sleep 1
-echo ""
+echo
 echo "the API supports auto-negotiated compression:"
 sleep 3
 curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
-echo ""
+echo
 echo "let's fetch us some transaction from the ebay sandbox.."
-echo ""
-echo ""
-echo ""
-echo ""
+echo
+echo
+echo
+echo
 sleep 3
 curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b" | jq .
-echo ""
+echo
 sleep 2
 echo "awesome. thanks for watching!"
 echo "- the itembase team"
-echo ""
+echo
 cat << "EOF"  
   ___  __       _                       _                        
  |__ \/_ |     | |                     | |                       
@@ -76,8 +76,8 @@ cat << "EOF"
   \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
                                                                  
 EOF
-echo ""
-echo ""
+echo
+echo
 
 
 ```
