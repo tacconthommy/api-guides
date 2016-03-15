@@ -1,6 +1,6 @@
 ## Activation
 
-The following steps are necessary if your client is part of the itembase solution directory and uses data from user defined data connections.
+While authorization allows your client to request data from an itembase user, activation is used to bind data of a shop that a user selects to the public API for you. Despite shop selection happens entirely on our side, you still need to do the following steps to finish the process. Please not that this is necessary if your client is part of the itembase solution directory and uses data from user defined data connections.
 
 The activation process requires that you obtained a valid access token before (see above).
 
