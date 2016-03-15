@@ -78,7 +78,7 @@ https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_sec
 
 The `redirect_uri` will be ignored in *authorization_code* flow, but still has to be given. Please use an allowed redirect_uri (e.g. the one from the *auth* call) for this. You will receice a JSON response that returns your tokens:
 
-```
+```json
 {
     "access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
     "expires_in": 2592000,
@@ -105,7 +105,7 @@ https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_sec
 
 This call returns a JSON with a new set of tokens that replaces the old pair.
 
-```
+```json
 {
     "access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
     "expires_in": 2592000,
@@ -121,13 +121,13 @@ You should obtain a new access token latest before your refresh token expires. I
 
 For almost all API calls at itembase you need a user id. To obtain the one that your AccessToken is valid for, there is an user info call that you can use if `user.minimal` is part of your scope:
 
-```
+```shell
 curl -X GET --header "Authorization: Bearer your_access_token" "https://users.itembase.com/v1/me"
 ```
 
 This responds with basic user information, one of them is the `uuid` of the itembase user:
 
-```
+```json
 {
     "uuid": "a4b91ee7-ec1a-49b9-afce-371dc8797749",
     "username": "thommy",

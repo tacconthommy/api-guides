@@ -10,13 +10,13 @@ Activation contains of 2 simple steps: An API call and a redirect.
 
 First you need to perform an API call (**on server side**) to our activation endpoint. Call it with a valid access token in the header:
 
-```
+```shell
 curl -X GET --header "Authorization: Bearer your_access_token" "https://solutionservice.itembase.com/activate"
 ```
 
 The service will generate an *activation URL* for you that is valid for the user authenticated with the given access token and will expire at a given point in time. This is returned to you in a JSON response:
 
-```
+```json
 {
     "activation_url": "https://solutionservice.itembase.com/finish/some_activation_code",
     "expires_at": 1427361493
@@ -39,7 +39,7 @@ https://solutionservice.itembase.com/finish/some_activation_code?notification_ur
 
 As soon as activation step was succsefully completed a `POST` request will be send to `notification_uri` provided with the following payload:
 
-```
+```json
 {"user_uuid":"user_uuid for which solution was activated"}
 ```
 
