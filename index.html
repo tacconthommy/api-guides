@@ -113,21 +113,23 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <nav id="bs-navbar" class="" style="right: -300px;">
+                    <nav id="bs-navbar">
                         <ul class="nav navbar-nav">
                             <li><a href="http://devportal.itembase.co:8083/products">Product</a></li>
                             <li class="dropdown active"><a href="http://devportal.itembase.co:8083/api">API</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
+                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
                                     <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="http://itembase.github.io/api-guides/">Documentation</a>
+                            <li class="dropdown"><a href="http://devportal.itembase.co:8000/api/docs">Documentation</a>
                             	<ul class="container">
-                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/google-logi">Clients</a></li>
+                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
                             <li class="login"><a href="http://devportal.itembase.co:8083/google-login">Login with itembase</a></li>
@@ -153,7 +155,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://devportal.itembase.co:8083/api/clients'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     
@@ -168,7 +170,7 @@
 
 <p>You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.</p>
 
-<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. </p>
+<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute.</p>
 
 <p>A first example:
 <p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p></p>
@@ -177,36 +179,36 @@
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 
 clear
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"let's do an uncompressed http request."</span>
+<span class="nb">echo
+echo</span> <span class="s2">"let's do an uncompressed http request."</span>
 <span class="nb">echo</span> <span class="s2">"we will aim for a non existing user to provoke a 404."</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 3
-curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq . 
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
+<span class="nb">echo
+echo
+echo
+echo
+</span>sleep 3
+curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
+<span class="nb">echo
+echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
 sleep 1
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
+<span class="nb">echo
+echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
 sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 3
+<span class="nb">echo
+echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
+<span class="nb">echo
+echo
+echo
+echo
+</span>sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
-<span class="nb">echo</span> <span class="s2">""</span>
-sleep 2
+<span class="nb">echo
+</span>sleep 2
 <span class="nb">echo</span> <span class="s2">"awesome. thanks for watching!"</span>
 <span class="nb">echo</span> <span class="s2">"- the itembase team"</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-cat &lt;&lt; <span class="s2">"EOF"</span>  
+<span class="nb">echo
+</span>cat &lt;&lt; <span class="s2">"EOF"</span>
   ___  __       _                       _                        
  |__ <span class="se">\/</span>_ |     | |                     | |                       
     <span class="o">)</span> <span class="o">||</span> | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
@@ -218,11 +220,11 @@ cat &lt;&lt; <span class="s2">"EOF"</span>
    ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
   / _ <span class="se">\|</span> |     / _ <span class="se">\ </span>| <span class="s1">'_ ` _ \ | '</span>_ <span class="sb">`</span> _ <span class="se">\ </span> / _ <span class="se">\|</span> <span class="s1">'__|/ __|/ _ \
  |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
-  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
+  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
 
 EOF
-echo ""
-echo ""
+echo
+echo
 
 
 </span></code></pre>
@@ -239,6 +241,34 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <li>By default, only the basic user information is available to you even if you have gained the user&rsquo;s authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:</li>
 <li>An additional <em>redirect uri</em> that is known on our side and where the activation endpoint will redirect after the process finished.</li>
 </ol>
+
+<h1 id="reporting-issues">Reporting Issues</h1>
+
+<p>Naturally we aim to deliver a reliable, well-behaving and well-documented service. Please tell us if you stumble across an issue you believe we need to address. We have open sourced our documentation as well so that you can raise issues there as well. Please report issues or raise pull requests here:</p>
+
+<table><thead>
+<tr>
+<th>Component</th>
+<th>Link</th>
+<th>Notes</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>The <strong>API</strong> itself</td>
+<td><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report an Issue form</a></td>
+<td>Any of our public APIs. We working on a public issue tracker.</td>
+</tr>
+<tr>
+<td><em>This</em> <strong>Guides</strong> section</td>
+<td><a href="https://github.com/itembase/api-guides/issues">github.com/itembase/api-guides/issues</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>API Documentation</strong> section</td>
+<td><a href="https://github.com/itembase/api-guides/issues">github.com/itembase/api-swagger/issues</a></td>
+<td>This is the swagger API explorer. Issues with the swagger-ui can be posted <a href="https://github.com/swagger-api/swagger-ui">here</a>.</td>
+</tr>
+</tbody></table>
 
 <h1 id="sandbox-vs-production">Sandbox vs Production</h1>
 
@@ -314,7 +344,7 @@ resource <span class="o">=</span> &lt; the name of the resource you want to get 
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="nv">$auth_header</span> <span class="nv">$url</span> | jq .
 </code></pre>
 
-<h1 id="authorization-and-authentication">Authorization and authentication</h1>
+          <h1 id="authorization-authentication-activation">Authorization, authentication, activation</h1>
 
 <p>We use OAuth 2.0 for authorization. Our auth server at <code class="prettyprint">accounts.itembase.com</code> combines an OAuth server that follows the standardized behaviour described in <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a> and a login server for user authentication.</p>
 
@@ -391,16 +421,16 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 </tbody></table>
 
 <p>The scope is a space seperated list of the scope items listed above. A valid example would be:</p>
-
-<p>user.minimal connection.transaction</p>
+<pre class="highlight plaintext"><code>user.minimal connection.transaction
+</code></pre>
 
 <p>This would give your client access to APIs that return basic user information and transaction data for user defined shop connections.</p>
 
 <h2 id="initiating-the-process">Initiating the process</h2>
 
 <p>You need to integrate a button in the frontend of your system that the user can click to connect his itembase account with your client. If he clicks it, you need to redirect to the authentication URL of our accounts server with your <em>client id</em>:</p>
-
-<p>https://accounts.itembase.com/oauth/v2/auth?response_type=code&amp;client_id=your_client_id&amp;scope=user.minimal&amp;redirect_uri=http://your.service/connect/itembase&amp;grant_type=authorization_code</p>
+<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/auth?response_type=code&amp;client_id=your_client_id&amp;scope=user.minimal&amp;redirect_uri=http://your.service/connect/itembase&amp;grant_type=authorization_code
+</code></pre>
 
 <p>Replace the placeholders with your actual data: <code class="prettyprint">your_client_id</code> becomes the client id you got from itembase, <code class="prettyprint">http://your.service/connect/itembase</code> the redirect URI you registered for your client. Also set the scope you need as value of the <code class="prettyprint">scope</code> parameter.</p>
 
@@ -411,30 +441,30 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 <p>When the user was authenticated successfully, he will see a website that asks him to accept or decline that your client wants to have access to his data on itembase. The dialogue lists all scopes you requested initially.</p>
 
 <p>In case of an error (e.g. if the user does not accept), the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> with an error response:</p>
-
-<p>http://your.service/connect/itembase?error=access_denied</p>
+<pre class="highlight plaintext"><code>http://your.service/connect/itembase?error=access_denied
+</code></pre>
 
 <p>If the user accepted your client, the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> including an authorization code (parameter <code class="prettyprint">code</code>):</p>
-
-<p>http://your.service/connect/itembase?code=1234someauthcode</p>
+<pre class="highlight plaintext"><code>http://your.service/connect/itembase?code=1234someauthcode
+</code></pre>
 
 <p>This code is only valid for some seconds and can only be used once. You need it to obtain a refresh token and an access token.</p>
 
 <h2 id="obtaining-your-first-tokens">Obtaining your first tokens</h2>
 
 <p>With the authorization code you can request an access token and a refresh token the first time. This request goes to the accounts server&rsquo;s token endpoint and <strong>has to be sent server side</strong> since it includes your client secret in this flow:</p>
-
-<p>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=authorization_code&amp;code=1234someauthcode&amp;redirect_uri=http://your.service/connect/</p>
+<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=authorization_code&amp;code=1234someauthcode&amp;redirect_uri=http://your.service/connect/
+</code></pre>
 
 <p>The <code class="prettyprint">redirect_uri</code> will be ignored in <em>authorization_code</em> flow, but still has to be given. Please use an allowed redirect_uri (e.g. the one from the <em>auth</em> call) for this. You will receice a JSON response that returns your tokens:</p>
-
-<p>{
-        &ldquo;access_token&rdquo;: &ldquo;MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj&rdquo;,
-        &ldquo;expires_in&rdquo;: 2592000,
-        &ldquo;token_type&rdquo;: &ldquo;bearer&rdquo;,
-        &ldquo;scope&rdquo;: &ldquo;user.minimal&rdquo;,
-        &ldquo;refresh_token&rdquo;: &ldquo;ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj&rdquo;
-    }</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">2592000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user.minimal"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs. Tokens expire after a while:</p>
 
@@ -457,46 +487,81 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 <h2 id="obtaining-new-access-tokens-with-refresh-tokens">Obtaining new access tokens with refresh tokens</h2>
 
 <p>If an acces token has expired, you can use a refresh token you obtained with it to get a new one. This works once again with the token endpoint of the accounts server:</p>
-
-<p>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#</p>
+<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#
+</code></pre>
 
 <p>This call returns a JSON with a new set of tokens that replaces the old pair.</p>
-
-<p>{
-        &ldquo;access_token&rdquo;: &ldquo;MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj&rdquo;,
-        &ldquo;expires_in&rdquo;: 2592000,
-        &ldquo;token_type&rdquo;: &ldquo;bearer&rdquo;,
-        &ldquo;scope&rdquo;: &ldquo;user.minimal&rdquo;,
-        &ldquo;refresh_token&rdquo;: &ldquo;ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj&rdquo;
-    }</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">2592000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user.minimal"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
 <p>You should obtain a new access token latest before your refresh token expires. If the refresh token expires as well, you will need to repeat the authorization/authentication process with the user involved to obtain a new pair of tokens.</p>
 
 <h2 id="getting-basic-user-information">Getting basic user information</h2>
 
 <p>For almost all API calls at itembase you need a user id. To obtain the one that your AccessToken is valid for, there is an user info call that you can use if <code class="prettyprint">user.minimal</code> is part of your scope:</p>
-
-<p>Request (GET):
-    https://users.itembase.com/v1/me</p>
-
-<p>Header:
-    Authorization: Bearer your_access_token</p>
+<pre class="highlight shell"><code>curl -X GET --header <span class="s2">"Authorization: Bearer your_access_token"</span> <span class="s2">"https://users.itembase.com/v1/me"</span>
+</code></pre>
 
 <p>This responds with basic user information, one of them is the <code class="prettyprint">uuid</code> of the itembase user:</p>
-
-<p>{
-        &ldquo;uuid&rdquo;: &ldquo;a4b91ee7-ec1a-49b9-afce-371dc8797749&rdquo;,
-        &ldquo;username&rdquo;: &ldquo;thommy&rdquo;,
-        &ldquo;email&rdquo;: &ldquo;tb@itembase.biz&rdquo;,
-        &ldquo;first_name&rdquo;: &ldquo;Thomas&rdquo;,
-        &ldquo;middle_name&rdquo;: null,
-        &ldquo;last_name&rdquo;: &ldquo;Bretzke&rdquo;,
-        &ldquo;name_format&rdquo;: &ldquo;first middle last&rdquo;,
-        &ldquo;locale&rdquo;: &ldquo;en&rdquo;,
-        &ldquo;preferred_currency&rdquo;: &ldquo;EUR&rdquo;,
-    }</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"uuid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a4b91ee7-ec1a-49b9-afce-371dc8797749"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"thommy"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tb@itembase.biz"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Thomas"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"middle_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bretzke"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name_format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first middle last"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"locale"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"preferred_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EUR"</span><span class="p">,</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
 
 <p>We recommend you to store your access token and refresh token securely on your server along with the <code class="prettyprint">uuid</code> they are valid for. You can also create a user on your side or match the one that was currently logged in with the data you receive from this call.</p>
+
+          <h2 id="activation">Activation</h2>
+
+<p>While authorization allows your client to request data owned by an itembase user, activation is used to bind the data stream of a shop to the public API. Please note that this step is necessary if your client is part of the itembase solution directory and uses data from user defined data connections.</p>
+
+<p>The activation process requires that you obtained a valid access token before (see above).</p>
+
+<p>Activation contains of 2 simple steps: An API call and a redirect.</p>
+
+<h3 id="get-the-activation-code">Get the activation code</h3>
+
+<p>First you need to perform an API call (<strong>on server side</strong>) to our activation endpoint. Call it with a valid access token in the header:</p>
+<pre class="highlight shell"><code>curl -X GET --header <span class="s2">"Authorization: Bearer your_access_token"</span> <span class="s2">"https://solutionservice.itembase.com/activate"</span>
+</code></pre>
+
+<p>The service will generate an <em>activation URL</em> for you that is valid for the user authenticated with the given access token and will expire at a given point in time. This is returned to you in a JSON response:</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"activation_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://solutionservice.itembase.com/finish/some_activation_code"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1427361493</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Now the only thing that&rsquo;s left is to redirect to the URL. This will activate your solution for the itembase user. Depending of the starting point of the authentication / activation process, itembase will redirect back to you or to the itembase solution directory.</p>
+
+<h3 id="activation-notification-optional">Activation notification (optional)</h3>
+
+<p>Sometimes there is need to do additional some actions when activation is completed. In order to be notified about such event you can pass as <code class="prettyprint">GET</code> parameter <code class="prettyprint">notification_uri</code> where itembase system will send notification as soon as activation step is finalized succsefully after redirect to <code class="prettyprint">activation_url</code>.</p>
+
+<p>So for example <code class="prettyprint">activation_url</code> should be modified like:</p>
+<pre class="highlight plaintext"><code>https://solutionservice.itembase.com/finish/some_activation_code?notification_uri=http%3A%2F%2Fsome%2Fnotification%2Furi
+</code></pre>
+
+<h4 id="notification-payload">Notification payload</h4>
+
+<p>As soon as activation step was succsefully completed a <code class="prettyprint">POST</code> request will be send to <code class="prettyprint">notification_uri</code> provided with the following payload:</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="nt">"user_uuid"</span><span class="p">:</span><span class="s2">"user_uuid for which solution was activated"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>The <code class="prettyprint">Content-type</code> header will be sent with value: <code class="prettyprint">application/json</code>.</p>
 
           <h1 id="errors">Errors</h1>
 
