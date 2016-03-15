@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Guides | DataConnect API</title>
+    <title>API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -113,23 +113,21 @@
                             <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <nav id="bs-navbar">
+                    <nav id="bs-navbar" class="" style="right: -300px;">
                         <ul class="nav navbar-nav">
                             <li><a href="http://devportal.itembase.co:8083/products">Product</a></li>
                             <li class="dropdown active"><a href="http://devportal.itembase.co:8083/api">API</a>
                             	<ul class="container">
-                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
+                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
                                     <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="http://devportal.itembase.co:8000/api/docs">Documentation</a>
+                            <li class="dropdown"><a href="http://itembase.github.io/api-guides/">Documentation</a>
                             	<ul class="container">
-                                    <li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
-                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Documentation</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/google-login">API Client Management</a></li>
-                                    <li><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report An Issue</a></li>
+                                	<li class="active"><a href="http://itembase.github.io/api-guides/">Guides</a></li>
+                                    <li><a href="http://devportal.itembase.co:8000/api/docs">API Docs</a></li>
+                                    <li><a href="http://devportal.itembase.co:8083/google-logi">Clients</a></li>
                                 </ul>
                             </li>
                             <li class="login"><a href="http://devportal.itembase.co:8083/google-login">Login with itembase</a></li>
@@ -155,7 +153,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='https://devportal.itembase.co:8083/api/clients'>Sign Up for a Developer Key</a></li>
+            <li><a href='#'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     
@@ -170,7 +168,7 @@
 
 <p>You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.</p>
 
-<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute.</p>
+<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute. </p>
 
 <p>A first example:
 <p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p></p>
@@ -179,36 +177,36 @@
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 
 clear
-<span class="nb">echo
-echo</span> <span class="s2">"let's do an uncompressed http request."</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"let's do an uncompressed http request."</span>
 <span class="nb">echo</span> <span class="s2">"we will aim for a non existing user to provoke a 404."</span>
-<span class="nb">echo
-echo
-echo
-echo
-</span>sleep 3
-curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo
-echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 3
+curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq . 
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
 sleep 1
-<span class="nb">echo
-echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
 sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo
-echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
-<span class="nb">echo
-echo
-echo
-echo
-</span>sleep 3
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 3
 curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
-<span class="nb">echo
-</span>sleep 2
+<span class="nb">echo</span> <span class="s2">""</span>
+sleep 2
 <span class="nb">echo</span> <span class="s2">"awesome. thanks for watching!"</span>
 <span class="nb">echo</span> <span class="s2">"- the itembase team"</span>
-<span class="nb">echo
-</span>cat &lt;&lt; <span class="s2">"EOF"</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+cat &lt;&lt; <span class="s2">"EOF"</span>  
   ___  __       _                       _                        
  |__ <span class="se">\/</span>_ |     | |                     | |                       
     <span class="o">)</span> <span class="o">||</span> | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
@@ -220,11 +218,11 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
    ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
   / _ <span class="se">\|</span> |     / _ <span class="se">\ </span>| <span class="s1">'_ ` _ \ | '</span>_ <span class="sb">`</span> _ <span class="se">\ </span> / _ <span class="se">\|</span> <span class="s1">'__|/ __|/ _ \
  |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
-  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
+  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|   
 
 EOF
-echo
-echo
+echo ""
+echo ""
 
 
 </span></code></pre>
@@ -237,38 +235,10 @@ echo
 <li>A <em>client id</em> which identifies your client with the server (one for sandbox, one for production)</li>
 <li>A <em>client secret</em> which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and <strong>never expose it</strong> to a client</aside></li>
 <li>One or more <em>redirect uris</em> (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
-We are following the Oauth2 standard. Check out <a href="https://www.youtube.com/watch?v=io_r-0e3Qcw">this excellent video tutorial by KnpUniversity</a> which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a></li>
+We are following the Oauth2 standard. Check out <a href="https://www.youtube.com/watch?v=io_r-0e3Qcw">this excellent video tutorial by KnpUniversity</a> which explains OAuth2 very well.</li>
 <li>By default, only the basic user information is available to you even if you have gained the user&rsquo;s authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:</li>
 <li>An additional <em>redirect uri</em> that is known on our side and where the activation endpoint will redirect after the process finished.</li>
 </ol>
-
-<h1 id="reporting-issues">Reporting Issues</h1>
-
-<p>Naturally we aim to deliver a reliable, well-behaving and well-documented service. Please tell us if you stumble across an issue you believe we need to address. We have open sourced our documentation as well so that you can raise issues an pull requests for this as well. Please report issues or raise pull requests here:</p>
-
-<table><thead>
-<tr>
-<th>Component</th>
-<th>Link</th>
-<th>Notes</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>The <strong>API</strong> itself</td>
-<td><a href="http://devportal.itembase.co:8083/contact/api_feedback">Report an Issue form</a></td>
-<td>A free-text form for all of our public APIs. We are working on better public issue tracker.</td>
-</tr>
-<tr>
-<td><em>This</em> <strong>Guides</strong> section</td>
-<td><a href="https://github.com/itembase/api-guides/issues">github.com/itembase/api-guides/issues</a></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>API Documentation</strong> section</td>
-<td><a href="https://github.com/itembase/api-guides/issues">github.com/itembase/api-swagger/issues</a></td>
-<td>This is the swagger API explorer. Issues with the swagger-ui can be posted <a href="https://github.com/swagger-api/swagger-ui">here</a>.</td>
-</tr>
-</tbody></table>
 
 <h1 id="sandbox-vs-production">Sandbox vs Production</h1>
 
