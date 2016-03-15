@@ -182,7 +182,9 @@ A scope describes what resources you are able to access and in which way (read, 
 
 The scope is a space seperated list of the scope items listed above. A valid example would be:
 
-	user.minimal connection.transaction
+```
+user.minimal connection.transaction
+```
 
 This would give your client access to APIs that return basic user information and transaction data for user defined shop connections.
 
@@ -190,7 +192,9 @@ This would give your client access to APIs that return basic user information an
 
 You need to integrate a button in the frontend of your system that the user can click to connect his itembase account with your client. If he clicks it, you need to redirect to the authentication URL of our accounts server with your *client id*:
 
-	https://accounts.itembase.com/oauth/v2/auth?response_type=code&client_id=your_client_id&scope=user.minimal&redirect_uri=http://your.service/connect/itembase&grant_type=authorization_code
+```
+https://accounts.itembase.com/oauth/v2/auth?response_type=code&client_id=your_client_id&scope=user.minimal&redirect_uri=http://your.service/connect/itembase&grant_type=authorization_code
+```
 
 Replace the placeholders with your actual data: `your_client_id` becomes the client id you got from itembase, `http://your.service/connect/itembase` the redirect URI you registered for your client. Also set the scope you need as value of the `scope` parameter.
 
@@ -202,11 +206,15 @@ When the user was authenticated successfully, he will see a website that asks hi
 
 In case of an error (e.g. if the user does not accept), the itembase accounts server redirects to your `redirect_uri` with an error response:
 
-	http://your.service/connect/itembase?error=access_denied
+```
+http://your.service/connect/itembase?error=access_denied
+```
 
 If the user accepted your client, the itembase accounts server redirects to your `redirect_uri` including an authorization code (parameter `code`):
 
-	http://your.service/connect/itembase?code=1234someauthcode
+```
+http://your.service/connect/itembase?code=1234someauthcode
+```
 
 This code is only valid for some seconds and can only be used once. You need it to obtain a refresh token and an access token.
 
@@ -214,17 +222,21 @@ This code is only valid for some seconds and can only be used once. You need it 
 
 With the authorization code you can request an access token and a refresh token the first time. This request goes to the accounts server's token endpoint and **has to be sent server side** since it includes your client secret in this flow:
 
-	https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=authorization_code&code=1234someauthcode&redirect_uri=http://your.service/connect/
+```
+https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=authorization_code&code=1234someauthcode&redirect_uri=http://your.service/connect/
+```
 
 The `redirect_uri` will be ignored in *authorization_code* flow, but still has to be given. Please use an allowed redirect_uri (e.g. the one from the *auth* call) for this. You will receice a JSON response that returns your tokens:
 
-	{
-    	"access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
-    	"expires_in": 2592000,
-    	"token_type": "bearer",
-    	"scope": "user.minimal",
-    	"refresh_token": "ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"
-	}
+```
+{
+    "access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
+    "expires_in": 2592000,
+    "token_type": "bearer",
+    "scope": "user.minimal",
+    "refresh_token": "ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"
+}
+```
 
 The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs. Tokens expire after a while:
 
@@ -237,42 +249,46 @@ The access token is valid for the one particular user you obtained it for. You n
 
 If an acces token has expired, you can use a refresh token you obtained with it to get a new one. This works once again with the token endpoint of the accounts server:
 
-	https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=refresh_token&refresh_token=your_refresh_token#
+```
+https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=refresh_token&refresh_token=your_refresh_token#
+```
 
 This call returns a JSON with a new set of tokens that replaces the old pair.
 
-	{
-    	"access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
-    	"expires_in": 2592000,
-    	"token_type": "bearer",
-    	"scope": "user.minimal",
-    	"refresh_token": "ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"
-	}
-	
+```
+{
+    "access_token": "MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj",
+    "expires_in": 2592000,
+    "token_type": "bearer",
+    "scope": "user.minimal",
+    "refresh_token": "ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"
+}
+```
+
 You should obtain a new access token latest before your refresh token expires. If the refresh token expires as well, you will need to repeat the authorization/authentication process with the user involved to obtain a new pair of tokens.
 
 ## Getting basic user information
 
 For almost all API calls at itembase you need a user id. To obtain the one that your AccessToken is valid for, there is an user info call that you can use if `user.minimal` is part of your scope:
 
-	Request (GET):
-	https://users.itembase.com/v1/me
-
-	Header:
-    Authorization: Bearer your_access_token
+```
+curl -X GET --header "Authorization: Bearer your_access_token" "https://users.itembase.com/v1/me"
+```
 
 This responds with basic user information, one of them is the `uuid` of the itembase user:
 
-    {
-        "uuid": "a4b91ee7-ec1a-49b9-afce-371dc8797749",
-        "username": "thommy",
-        "email": "tb@itembase.biz",
-        "first_name": "Thomas",
-        "middle_name": null,
-        "last_name": "Bretzke",
-        "name_format": "first middle last",
-        "locale": "en",
-        "preferred_currency": "EUR",
-    }
+```
+{
+    "uuid": "a4b91ee7-ec1a-49b9-afce-371dc8797749",
+    "username": "thommy",
+    "email": "tb@itembase.biz",
+    "first_name": "Thomas",
+    "middle_name": null,
+    "last_name": "Bretzke",
+    "name_format": "first middle last",
+    "locale": "en",
+    "preferred_currency": "EUR",
+}
+```
 
 We recommend you to store your access token and refresh token securely on your server along with the `uuid` they are valid for. You can also create a user on your side or match the one that was currently logged in with the data you receive from this call.
