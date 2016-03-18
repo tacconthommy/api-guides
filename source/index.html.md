@@ -5,7 +5,7 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='https://devportal.itembase.co:8083/api/clients'>Sign Up for a Developer Key</a>
+  - <a href='https://developers.itembase.com/api/clients'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
