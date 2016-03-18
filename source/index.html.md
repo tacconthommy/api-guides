@@ -100,7 +100,7 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 
 |Component|Link|Notes
 |---|---|---|
-|The **API** itself|[Report an Issue form](http://devportal.itembase.co:8083/contact/api_feedback)|Any of our public APIs. We working on a public issue tracker.|
+|The **API** itself|[Report an Issue form](https://developers.itembase.com/contact/api_feedback)|Any of our public APIs. We working on a public issue tracker.|
 |*This* **Guides** section|[github.com/itembase/api-guides/issues](https://github.com/itembase/api-guides/issues)||
 |**API Documentation** section|[github.com/itembase/api-swagger/issues](https://github.com/itembase/api-guides/issues)|This is the swagger API explorer. Issues with the swagger-ui can be posted [here](https://github.com/swagger-api/swagger-ui).|
 
