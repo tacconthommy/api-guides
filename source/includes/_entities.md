@@ -8,7 +8,7 @@ There are four main entity types: Transaction, Product, Buyer and Profile.
 ## Profile Version 1.2
 The Profile resource describes the connected profile on the remote platform (e.g. an eBay seller's account, a Magento installation's shop information). Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.
 
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.com/v1/profile.v1.2.schema.json",
@@ -104,7 +104,7 @@ The Profile resource describes the connected profile on the remote platform (e.g
 ## Base Buyer Version 1.0
 A base buyer is an abstract buyer schema.
 
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.io/v1/base_buyer.v1.0.schema.json",
@@ -137,7 +137,7 @@ A base buyer is an abstract buyer schema.
 ## Buyer Version 1.2
 Buyers are clients registered with a shop or platform (this means that the set of buyers is not necessarily the same as all participants a shop's transactions.
 
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.io/v1/buyer.v1.2.schema.json",
@@ -251,7 +251,7 @@ Buyers are clients registered with a shop or platform (this means that the set o
 ```
 
 ## Transaction Version 1.4
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.io/v1/transaction.v1.4.schema.json",
@@ -452,7 +452,7 @@ Buyers are clients registered with a shop or platform (this means that the set o
 ## Base Product Version 1.0
 An abstract base product schema, used by Product Version 1.* schemas.
 
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.io/v1/base_product.v1.0.schema.json",
@@ -568,7 +568,7 @@ An abstract base product schema, used by Product Version 1.* schemas.
 ## Product Version 1.2
 This product entity extends the "base product" and is exposed via the API.
 
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.io/v1/product.v1.2.schema.json",
@@ -869,7 +869,7 @@ This product entity extends the "base product" and is exposed via the API.
 ```
 
 ## Address Version 1.0
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.com/v1/address.v1.2.schema.json",
@@ -929,7 +929,7 @@ This product entity extends the "base product" and is exposed via the API.
 ```
 
 ## Contact Version 1.0
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.com/v1/contact.v1.0.schema.json",
@@ -997,7 +997,7 @@ This product entity extends the "base product" and is exposed via the API.
 ```
 
 ## Currency Version 1.0
-```Json
+```json
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://api.itembase.com/v1/currency.v1.0.schema.json",
