@@ -5,7 +5,7 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='https://developers.itembase.com/api/clients'>Sign Up for a Developer Key</a>
+  - <a href='https://api.itembase.com/api/clients'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -64,19 +64,19 @@ echo "awesome. thanks for watching!"
 echo "- the itembase team"
 echo
 cat << "EOF"
-  ___  __       _                       _                        
- |__ \/_ |     | |                     | |                       
-    ) || | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _  
-   / / | |/ __|| __|  / __|/ _ \| '_ \ | __|| | | || '__|| | | | 
-  / /_ | |\__ \| |_  | (__|  __/| | | || |_ | |_| || |   | |_| | 
- |____||_||___/ \__|  \___|\___||_| |_| \__| \__,_||_|    \__, | 
-         _____                                             __/ | 
-        / ____|                                           |___/  
-   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___ 
+  ___  __       _                       _
+ |__ \/_ |     | |                     | |
+    ) || | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _
+   / / | |/ __|| __|  / __|/ _ \| '_ \ | __|| | | || '__|| | | |
+  / /_ | |\__ \| |_  | (__|  __/| | | || |_ | |_| || |   | |_| |
+ |____||_||___/ \__|  \___|\___||_| |_| \__| \__,_||_|    \__, |
+         _____                                             __/ |
+        / ____|                                           |___/
+   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___
   / _ \| |     / _ \ | '_ ` _ \ | '_ ` _ \  / _ \| '__|/ __|/ _ \
  |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
   \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
-                                                                 
+
 EOF
 echo
 echo
@@ -100,7 +100,7 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 
 |Component|Link|Notes
 |---|---|---|
-|The **API** itself|[Report an Issue form](https://developers.itembase.com/contact/api_feedback)|Any of our public APIs. We working on a public issue tracker.|
+|The **API** itself|[Report an Issue form](https://api.itembase.com/contact/api_feedback)|Any of our public APIs. We working on a public issue tracker.|
 |*This* **Guides** section|[github.com/itembase/api-guides/issues](https://github.com/itembase/api-guides/issues)||
 |**API Documentation** section|[github.com/itembase/api-swagger/issues](https://github.com/itembase/api-guides/issues)|This is the swagger API explorer. Issues with the swagger-ui can be posted [here](https://github.com/swagger-api/swagger-ui).|
 
@@ -127,7 +127,7 @@ Data from your shop is made available via our API using our *connectors* which u
 # Getting All New and Updated Products
 
 Assuming that you already obtained a valid access token and activated your solution for a user:
-   
+
 * ```access_token```: your OAuth2 client can get this using its client_id and refresh token
 * ```user_id```: the uuid of the user that has granted you access
 * ```base_url```: http://sandbox.api.itembase.io/v1/users
