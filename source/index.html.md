@@ -105,8 +105,19 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 |**API Documentation** section|[github.com/itembase/api-swagger/issues](https://github.com/itembase/api-guides/issues)|This is the swagger API explorer. Issues with the swagger-ui can be posted [here](https://github.com/swagger-api/swagger-ui).|
 
 # Sandbox vs Production
-We have versions for all of our services on our Sandbox and Production system.
-You can find the relevant URLs here:
+
+
+<aside class="warning">Currently the sandbox does not provide the full functionality of our production system.</aside>
+
+* It's **not** possible to connect shops to our sandbox platform. Instead we're regularly providing new test data for a prepared test user.
+* This user's sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).
+* Data is currently only provided by us and can only be fetched for **one shop user**.
+* Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the "activation" section below.
+
+<aside class="success">We're working on providing a full features sandbox to the community and will keep you updated via the developers notes.</aside>
+
+We have separate versions of our services running on our Sandbox and Production systems, see the relevant URLs here:
+
 
 |Type|Production|Sandbox|
 |---|---|---|
