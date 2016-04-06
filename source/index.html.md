@@ -107,17 +107,16 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 # Sandbox vs Production
 
 
-<aside class="notice">Currently the sandbox provides only limited functionality</aside>
+<aside class="warning">Currently the sandbox does not provide the full functionality of our production system.</aside>
 
-* It's **not** possible to connect shops to our platform. We're providing regularly updated testdata
-* Data is currently only provided and can only be fetched for **one shop user**
-* Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client.
+* It's **not** possible to connect shops to our sandbox platform. Instead we're regularly providing new test data for a prepared test user.
+* This user's sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).
+* Data is currently only provided by us and can only be fetched for **one shop user**.
+* Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the "activation" section below.
 
-<aside class="notice">We're working on providing a full features sandbox to the community and will keep you updated.</aside>
+<aside class="success">We're working on providing a full features sandbox to the community and will keep you updated via the developers notes.</aside>
 
-
-We have versions for all of our services on our Sandbox and Production system.
-You can find the relevant URLs here:
+We have separate versions of our services running on our Sandbox and Production systems, see the relevant URLs here:
 
 
 |Type|Production|Sandbox|
