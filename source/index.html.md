@@ -91,7 +91,7 @@ echo
 * A *client id* which identifies your client with the server (one for sandbox, one for production)
 * A *client secret* which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and **never expose it** to a client</aside>
 * One or more *redirect uris* (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
-We are following the Oauth2 standard. Check out [this excellent video tutorial by KnpUniversity](https://www.youtube.com/watch?v=io_r-0e3Qcw) which explains OAuth2 very well.
+We are following the Oauth2 standard. Check out [this excellent video tutorial by KnpUniversity](https://www.youtube.com/watch?v=io_r-0e3Qcw) which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a>
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
 * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
 
