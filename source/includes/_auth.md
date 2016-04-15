@@ -15,7 +15,7 @@ While the authorization is always necessary for a basic connection to our API, t
 
 It doesn't matter if the process is initiated from the third party (e.g. with a **connect with itembase** button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.
 
-![itembase authentication and activation](https://api.itembase.com/images/auth_activation.png)
+![itembase authentication and activation](images/auth_activation.png)
 
 
 ## About Scopes
@@ -137,7 +137,7 @@ This responds with basic user information, one of them is the `uuid` of the item
     "last_name": "Bretzke",
     "name_format": "first middle last",
     "locale": "en",
-    "preferred_currency": "EUR",
+    "preferred_currency": "EUR"
 }
 ```
 
