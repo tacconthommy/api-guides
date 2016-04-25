@@ -11,6 +11,7 @@ toc_footers:
 includes:
   - auth
   - activation
+  - selfservice
   - errors
   - entities
 
