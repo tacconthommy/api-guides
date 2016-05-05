@@ -777,7 +777,7 @@ table{    overflow-wrap: break-word;word-wrap: break-word;}
 .tocify-wrapper .tocify-item>a, .tocify-wrapper .toc-footer li{ overflow:inherit; white-space:normal;}
 .main-content .container{ max-width:100%; width:100%; padding-left:0;}
 .content table{ word-break:break-word}
-pre code{ white-space:pre-line;}
+/*pre code{ white-space:pre-line;}*/
 .nav>li>a:focus, .nav>li>a:hover{ background-color:transparent;}
 .tocify-wrapper{ height:100% !important;}
 @media(max-width:1600px)
