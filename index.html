@@ -307,6 +307,11 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <td>http://sandbox.solutionservice.itembase.io</td>
 </tr>
 <tr>
+<td>Selfservice API endpoint</td>
+<td>https://selfservice.itembase.com</td>
+<td>http://sandbox.selfservice.itembase.io</td>
+</tr>
+<tr>
 <td>API endpoint</td>
 <td>https://api.itembase.io</td>
 <td>http://sandbox.api.itembase.io</td>
@@ -401,6 +406,16 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 <td>user.minimal</td>
 <td>Read general user information</td>
 <td>Information include e.g. user id, mail address etc. Needed for the /me call after authorization – Should always be included</td>
+</tr>
+<tr>
+<td>user.instances.read</td>
+<td>Request information about itembase components in use</td>
+<td>Read activated services of a user</td>
+</tr>
+<tr>
+<td>user.instances.write</td>
+<td>Initiate new connections with itembase components</td>
+<td>Activate new services for a user</td>
 </tr>
 <tr>
 <td>connection.transaction</td>
@@ -566,6 +581,96 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 </span></code></pre>
 
 <p>The <code class="prettyprint">Content-type</code> header will be sent with value: <code class="prettyprint">application/json</code>.</p>
+
+          <h1 id="signing-up-users-and-add-services-with-the-selfservice-api">Signing up users and add services with the selfservice API</h1>
+
+<p>The itembase selfservice API enables any registered API client to easily sign up new users with them. It also offers a simple interface to add new services to existing itembase users.</p>
+
+<h2 id="what-can-i-do-with-it">What can I do with it?</h2>
+
+<p>The following functionality is offered by the itembase selfservice API:</p>
+
+<ul>
+<li>Sign up new users with an API client</li>
+<li>Add new shop connections to new or existing users</li>
+<li>Add new services for existing users</li>
+</ul>
+
+<h2 id="how-does-it-work">How does it work?</h2>
+
+<p>Selfservice API works with a simple token mechanism. By creating a token, you describe what your goal is and in which way it should be done. After that, you redirect the user to a specific endpoint that handles the generated token and guides him through the necessary steps. The endpoint is usable with or without an authenticated user. This way it can be used to sign up new users or to modify existing ones.</p>
+
+<p>Each service that itembase users can activate is described with a <em>component id</em>. This is usually a numeric ID. When a service was activated for a user, a single instance of it is created which is defined by an <em>instance id</em> – usually a uuid v4. Both can be used with the selfservice API, but it requires different levels of authorization:</p>
+
+<table><thead>
+<tr>
+<th>Use case</th>
+<th>Authorization</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Create a <em>signup with eBay</em> functionality for your client.</td>
+<td>(none)</td>
+</tr>
+<tr>
+<td>Add a new ebay store to an existing user.</td>
+<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.write</code></td>
+</tr>
+<tr>
+<td>Activate your client for an existing user&rsquo;s ebay store.</td>
+<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.write</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="example-signing-up-a-new-user-with-ebay">Example: Signing up a new user with eBay</h3>
+
+<p>Let&rsquo;s assume we want to ask the user to signup with his eBay store for our client via itembase. This implicitely means we have to:</p>
+
+<ul>
+<li>Authenticate an itembase user</li>
+<li>Add a new eBay store to his account</li>
+<li>Ask the user to authorize your client</li>
+<li>Activate your client for the new eBay store</li>
+</ul>
+
+<p>All of those steps is taken care of with the selfservice endpoint on our side. You just need to describe what you want to do. For this, you need to create a new token with a <code class="prettyprint">POST</code> call to the selfservice API. In the payload, define your client id and the IDs of the components you want to add (in this case just <code class="prettyprint">6</code> which describes ebay):</p>
+<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -d <span class="s1">'{
+    "component_ids": [6],
+    "client_id": "123_myclientid",
+    "action": "create"
+}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
+</code></pre>
+
+<p>The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to add. The token response will look like this: </p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123_myclientid"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="mi">77</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>Please note that a token is only valid for a limited amount of time, given in <code class="prettyprint">expires_in</code> field as seconds.</p>
+
+<p>The response contains a URL you have to redirect the user to (<code class="prettyprint">uri</code> field). If you do this, all the steps mentioned above will be taken care of.</p>
+
+<p>You probably want to provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token string will be added as GET parameter. </p>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/process/90b6813533b1d7bcede0d9be39c8d14dadc9c780?redirect_uri=https://some.redirect/uri</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">selfservice.itembase.com</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-cache</span>
+</code></pre>
+
+<p>This will lead to a final redirect to <code class="prettyprint">https://some.redirect/uri?token=90b6813533b1d7bcede0d9be39c8d14dadc9c780</code>.</p>
 
           <h1 id="errors">Errors</h1>
 
