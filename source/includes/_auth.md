@@ -25,6 +25,8 @@ A scope describes what resources you are able to access and in which way (read, 
 |Scope item|Readable form|Description|
 |---|---|---|
 |user.minimal|Read general user information|Information include e.g. user id, mail address etc. Needed for the /me call after authorization – Should always be included|
+|user.instances.read|Request information about itembase components in use|Read activated services of a user|
+|user.instances.write|Initiate new connections with itembase components|Activate new services for a user|
 |connection.transaction|Read transactions from connected platforms|Get access to transaction data of connected shops|
 |connection.product|Read product data from connected platforms|Get access to product data of connected shops|
 |connection.profile|Read profile data from connected platforms|Get access to specific account data of a connected shop|
