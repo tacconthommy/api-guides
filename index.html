@@ -512,6 +512,8 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 </tr>
 </tbody></table>
 
+<p>If you try to access data by a user with an expired access token, the API will return a <strong>HTTP 401 - Unauthorized</strong> response.</p>
+
 <h3 id="obtaining-a-new-access-token-using-a-refresh-token">Obtaining a new access token using a refresh token</h3>
 
 <p>If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:</p>
