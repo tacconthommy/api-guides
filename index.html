@@ -490,7 +490,11 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs. Tokens expire after a while:</p>
+<p>The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs.</p>
+
+<h2 id="expiration-of-refresh-and-access-tokens">Expiration of refresh and access tokens</h2>
+
+<p>All tokens will expire in &ldquo;expires_in&rdquo; seconds as recommended by <a href="https://tools.ietf.org/html/rfc6749#section-4.2.2">RFC 6749 for OAuth 2.0</a>. We defined the following expiration periods:</p>
 
 <table><thead>
 <tr>
@@ -508,7 +512,7 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 </tr>
 </tbody></table>
 
-<h2 id="obtaining-new-access-tokens-with-refresh-tokens">Obtaining new access tokens with refresh tokens</h2>
+<h3 id="obtaining-a-new-access-token-using-a-refresh-token">Obtaining a new access token using a refresh token</h3>
 
 <p>If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:</p>
 <pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#
