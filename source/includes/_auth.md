@@ -92,7 +92,7 @@ The `redirect_uri` will be ignored in *authorization_code* flow, but still has t
 
 The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs.
 
-## Expiration refresh and access tokens
+## Expiration of refresh and access tokens
 All tokens will expire in "expires_in" seconds as recommended by [RFC 6749 for OAuth 2.0](https://tools.ietf.org/html/rfc6749#section-4.2.2). We defined the following expiration periods:
 
 |Token type|Expires in|
