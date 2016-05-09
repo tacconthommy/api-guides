@@ -93,6 +93,7 @@ echo
 * A *client secret* which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and **never expose it** to a client</aside>
 * One or more *redirect uris* (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
 We are following the Oauth2 standard. Check out [this excellent video tutorial by KnpUniversity](https://www.youtube.com/watch?v=io_r-0e3Qcw) which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a>
+* You can use the sandbox user "klaus" with password "itembase" for fooling around in the sandbox.
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
 * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
 
@@ -112,7 +113,8 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 
 * It's **not** possible to connect shops to our sandbox platform. Instead we're regularly providing new test data for a prepared test user.
 * This user's sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).
-* Data is currently only provided by us and can only be fetched for **one shop user**.
+* Data is currently only provided by us and can only be fetched for **one shop owner**.
+ * This **test user** is called "klaus". His password is "itembase". You can use this credentials to log in during OAuth flows.
 * Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the "activation" section below.
 
 <aside class="success">We're working on providing a full features sandbox to the community and will keep you updated via the developers notes.</aside>
@@ -127,7 +129,7 @@ We have separate versions of our services running on our Sandbox and Production 
 |User info URL|https://users.itembase.com/v1/me|http://sandbox.users.itembase.io/v1/me|
 |Activation endpoint|https://solutionservice.itembase.com|http://sandbox.solutionservice.itembase.io|
 |Selfservice API endpoint|https://selfservice.itembase.com|http://sandbox.selfservice.itembase.io|
-|API endpoint|https://api.itembase.io|http://sandbox.api.itembase.io|
+|API endpoint|https://api.itembase.io|https://sandbox.api.itembase.io|
 
 Transport in the production system is over HTTPS.
 
