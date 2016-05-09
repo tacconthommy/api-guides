@@ -232,6 +232,7 @@ echo
 <li>A <em>client secret</em> which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and <strong>never expose it</strong> to a client</aside></li>
 <li>One or more <em>redirect uris</em> (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
 We are following the Oauth2 standard. Check out <a href="https://www.youtube.com/watch?v=io_r-0e3Qcw">this excellent video tutorial by KnpUniversity</a> which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a></li>
+<li>You can use the sandbox user &ldquo;klaus&rdquo; with password &ldquo;itembase&rdquo; for fooling around in the sandbox.</li>
 <li>By default, only the basic user information is available to you even if you have gained the user&rsquo;s authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:</li>
 <li>An additional <em>redirect uri</em> that is known on our side and where the activation endpoint will redirect after the process finished.</li>
 </ol>
@@ -271,7 +272,11 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <ul>
 <li>It&rsquo;s <strong>not</strong> possible to connect shops to our sandbox platform. Instead we&rsquo;re regularly providing new test data for a prepared test user.</li>
 <li>This user&rsquo;s sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).</li>
-<li>Data is currently only provided by us and can only be fetched for <strong>one shop user</strong>.</li>
+<li>Data is currently only provided by us and can only be fetched for <strong>one shop owner</strong>.
+
+<ul>
+<li>This <strong>test user</strong> is called &ldquo;klaus&rdquo;. His password is &ldquo;itembase&rdquo;. You can use this credentials to log in during OAuth flows.</li>
+</ul></li>
 <li>Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the &ldquo;activation&rdquo; section below.</li>
 </ul>
 
@@ -314,7 +319,7 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <tr>
 <td>API endpoint</td>
 <td>https://api.itembase.io</td>
-<td>http://sandbox.api.itembase.io</td>
+<td>https://sandbox.api.itembase.io</td>
 </tr>
 </tbody></table>
 
