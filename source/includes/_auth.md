@@ -99,7 +99,7 @@ The access token is valid for the one particular user you obtained it for. You n
 
 ## Obtaining new access tokens with refresh tokens
 
-If an acces token has expired, you can use a refresh token you obtained with it to get a new one. This works once again with the token endpoint of the accounts server:
+If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:
 
 ```
 https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=refresh_token&refresh_token=your_refresh_token#
