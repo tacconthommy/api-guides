@@ -145,7 +145,14 @@ html, body {
     }
   }
 
-
+  .tocify-item[data-unique="Introduction"], .tocify-item[data-unique="Getting Access"], .tocify-item[data-unique="Getting Data"] {
+    text-transform: uppercase;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid $nav-footer-border-color;
+    font-weight: bold;
+  }
+  
   .tocify-item>a, .toc-footer li {
     padding: 0 $nav-padding 0 $nav-padding;
     display: block;

@@ -12,13 +12,14 @@ includes:
   - auth
   - activation
   - selfservice
+  - getting_data
   - errors
   - entities
 
 search: true
 ---
 
-# tl;dr
+# Introduction
 
 You need to [register  your application](/api/clients) to get a client_id.
 
@@ -133,34 +134,8 @@ We have separate versions of our services running on our Sandbox and Production 
 
 Transport in the production system is over HTTPS.
 
-# Accessing Your Shop Data
+# Getting Access
 Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in [our solution portal](http://connect.itembase.com/#/ib/connect/platforms). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop's data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the "activation flow" (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside>
 
 Data from your shop is made available via our API using our *connectors* which use a private, internal API for writing data. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
 <aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside>
-
-# Getting All New and Updated Products
-
-Assuming that you already obtained a valid access token and activated your solution for a user:
-
-* ```access_token```: your OAuth2 client can get this using its client_id and refresh token
-* ```user_id```: the uuid of the user that has granted you access
-* ```base_url```: http://sandbox.api.itembase.io/v1/users
-* ```resource```: the resource you want to access, like "products"
-
-All resources expose created_at_from/-to and updated_at_from/to query parameter that can easily be used to get all new and updated entities. Just make sure to set a "to" parameter so that you can reuse it in your next scheduled GET call. See our api reference (above) for more details.<aside class="success">We are currently working on using HTTP2's server side push functionality, to make scheduled GET jobs unncessary.</aside>
-
-```shell
-#!/bin/bash
-
-access_token = < generate this using your oauth2.0 clients refresh token for the given user >
-current_datetime = < generate the current datetime in ISO 8601 format >
-last_check_datetime = < this is the last time the script was run, as date time in ISO 8601 format >
-user_id = < the id of the user that has granted you access >
-resource = < the name of the resource you want to get >
-
-auth_header="Authorization: Bearer $access_token"
-url="<base_url>/<user_id>/$resource?created_at_from=$last_check_datetime&updated_at_to=$current_datetime"
-
-curl --compressed --verbose -X GET --header "Accept: application/json" --header $auth_header $url | jq .
-```
