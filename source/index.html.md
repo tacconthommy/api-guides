@@ -20,11 +20,11 @@ search: true
 
 # Introduction
 
-Our API connects eCommerce services and platforms to each other. We do this by standardizing and normalizing data like transactions and products using [beautiful Json schemas](#entities). We also use OAuth2 for auth and built our API in a RESTful manner.
+Our API connects eCommerce services and platforms to each other. We do this by standardizing and normalizing data like transactions and products using [Json schemas](#entities). We also use OAuth2 for auth and built our API in a RESTful manner.
 
 We have built multiple _connectors_ to platforms like eBay, Prestashop and even Gmail. Imagine you want to get all the orders stored inside a Prestashop installation, all you have to do is to initiate an _activation flow_ via our platform, activating our _Prestashop connector_ for the shop owner on the one hand, and activating your service on the other. You can repeat this process for as many connectors as you like without having to deal with platform specifics like formats, authentication, api limitations etc. Our connectors and transformers aim to provide a consistent and user-friendly interface to ALL and ANY eCommerce data.
 
-**To use the full potential of our platform**, you want to learn about _getting access_ and _getting data_. You also want to [create a user account](https://api.itembase.com/google-login) and then [register your application](https://api.itembase.com/api/clients) to get a client_id.
+**To use the full potential of our platform**, you want to learn about [getting access](#getting-access) and [reading and writing data](#reading-and-writing-data). You also want to [create a user account](https://api.itembase.com/google-login) and then [register your application](https://api.itembase.com/api/clients) to get a client_id.
 
 **For a quickstart**, you can just copy and paste the code samples we provide below. These code samples run _getting data_-queries with a predefined user that as has an activated connection and authorized access especially for you.
 
