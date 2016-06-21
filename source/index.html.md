@@ -57,7 +57,9 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 * On sandbox, there is  **test user** is called `klaus`.
  * His password is `itembase`. You can use this credentials to log in during OAuth flows.
  * His user id is `13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3`. You can use this for getting data.
- * His Magento shop connection id is `860b3402-6041-4194-bc71-986bf697f23c`. We have set up this Magento test shop for klaus and activated the connection. You can use the test connection to try out the POST and PUT /snippets endpoint.
+ * His Magento shop connection id is `860b3402-6041-4194-bc71-986bf697f23c`.
+ * His Magento shop is located at `http://sandbox.magento.itembase.io:13001/`
+ * We have installed this shop for klaus and activated the connection. You can use this connection to try out the POST and PUT /snippets endpoint.
 * The examples in this documentation use an access token for an activated, mock service we set up for this purpose. You should be able to just copy and paste and run them.
 * If you write a client for your application, the application needs to be activated for klaus' connection before you can get access to the data via the API. Alternatively, just try out our code examples.
 * On the sandbox the activation process needs to be initiated by the API client, not via any GUI. Please refer to the "activation" section below.
