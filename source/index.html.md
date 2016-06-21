@@ -55,7 +55,7 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 ## Sandbox vs Production
 
 * On sandbox, there is  **test user** is called `klaus`.
- * His password is `itembase`. You can use this credentials to log in during OAuth flows.
+ * His password is `itembase`. You can use his credentials to log in during OAuth flows.
  * His user id is `13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3`. You can use this for getting data.
  * His Magento shop connection id is `860b3402-6041-4194-bc71-986bf697f23c`.
  * His Magento shop is located at `http://sandbox.magento.itembase.io:13001/`
