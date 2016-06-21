@@ -33,14 +33,14 @@ We have built multiple _connectors_ to platforms like eBay, Prestashop and even 
 
 1. To use any API provided by itembase, you have to [register your client](/api/clients) with our servers.
 2. To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, [you need to authorize](auth) with this information:
-* A *client id* which identifies your client with the server (one for sandbox, one for production)
-* A *client secret* which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and **never expose it** to a client</aside>
-* One or more *redirect uris* (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
+ * A *client id* which identifies your client with the server (one for sandbox, one for production)
+ * A *client secret* which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and **never expose it** to a client</aside>
+ * One or more *redirect uris* (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
 We are following the Oauth2 standard. Check out [this excellent video tutorial by KnpUniversity](https://www.youtube.com/watch?v=io_r-0e3Qcw) which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a>
-* You can use the sandbox user "klaus" with password "itembase" for fooling around in the sandbox.
+ * You can use the sandbox user "klaus" with password "itembase" for fooling around in the sandbox.
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
-* An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
-* Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. 
+ * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
+ * Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions.
 <aside class="success">Entities that originate from the same data connection have the same <i>source_id</i> attribute.</aside>
 
 ## Reporting Issues
