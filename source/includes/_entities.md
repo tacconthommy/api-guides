@@ -1078,11 +1078,11 @@ This product entity extends the "base product" and is exposed via the API.
 
 ```
 
-### Job Version 1.0
+## Job Version 1.0
 
 POST /snippets requests will return a job. You can query this job then to determine if the job has been completed.
 
-```Json
+```json
 
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
