@@ -1,7 +1,8 @@
 # Entities
 <a name="entities"></a>The itembase API /v1 uses the following entities (in Json Schema notation).
+There are four main entity types: _Transaction_, _Product_, _Buyer_ and _Profile_.
 
-There are four main entity types: Transaction, Product, Buyer and Profile.
+Version /v2 added the _Snippet_ (for frontend manipulation) and the _Job_ (for asynchronous request handling) entities.
 
 <aside class="notice">Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user's profile on the remote platform (e.g. a seller's account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</aside>
 
