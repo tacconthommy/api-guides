@@ -5,15 +5,14 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href='https://api.itembase.com/api/clients'>Sign Up for a Developer Key</a>
+  - <a href='https://api.itembase.com/api/clients'>Register Your Application</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
-  - auth
+  - gettingaccess
   - activation
   - selfservice
-  - getting_data
-  - errors
+  - gettingdata
   - entities
 
 search: true
@@ -21,72 +20,16 @@ search: true
 
 # Introduction
 
-You need to [register  your application](/api/clients) to get a client_id.
+Our API connects eCommerce services and platforms to each other. We do this by standardizing and normalizing data like transactions and products using [beautiful Json schemas](#entities). We also use OAuth2 for auth and built our API in a RESTful manner.
 
-You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.
+We have built multiple _connectors_ to platforms like eBay, Prestashop and even Gmail. Imagine you want to get all the orders stored inside a Prestashop installation, all you have to do is to initiate an _activation flow_ via our platform, activating our _Prestashop connector_ for the shop owner on the one hand, and activating your service on the other. You can repeat this process for as many connectors as you like without having to deal with platform specifics like formats, authentication, api limitations etc. Our connectors and transformers aim to provide a consistent and user-friendly interface to ALL and ANY eCommerce data.
 
-Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute.
+**To use the full potential of our platform**, you want to learn about _getting access_ and _getting data_. You also want to [create a user account](https://api.itembase.com/google-login) and then [register your application](https://api.itembase.com/api/clients) to get a client_id.
 
-A first example:
-<p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p>
-
-Example source:
-
-```shell
-#!/bin/bash
-
-clear
-echo
-echo "let's do an uncompressed http request."
-echo "we will aim for a non existing user to provoke a 404."
-echo
-echo
-echo
-echo
-sleep 3
-curl --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
-echo
-echo "the expected response is a json with a well-defined http error code."
-sleep 1
-echo
-echo "the API supports auto-negotiated compression:"
-sleep 3
-curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/123thisiswrong" | jq .
-echo
-echo "let's fetch us some transaction from the ebay sandbox.."
-echo
-echo
-echo
-echo
-sleep 3
-curl --compressed --verbose -X GET --header "Accept: application/json" --header "Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ" "http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b" | jq .
-echo
-sleep 2
-echo "awesome. thanks for watching!"
-echo "- the itembase team"
-echo
-cat << "EOF"
-  ___  __       _                       _
- |__ \/_ |     | |                     | |
-    ) || | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _
-   / / | |/ __|| __|  / __|/ _ \| '_ \ | __|| | | || '__|| | | |
-  / /_ | |\__ \| |_  | (__|  __/| | | || |_ | |_| || |   | |_| |
- |____||_||___/ \__|  \___|\___||_| |_| \__| \__,_||_|    \__, |
-         _____                                             __/ |
-        / ____|                                           |___/
-   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___
-  / _ \| |     / _ \ | '_ ` _ \ | '_ ` _ \  / _ \| '__|/ __|/ _ \
- |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
-  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
-
-EOF
-echo
-echo
+**For a quickstart**, you can just copy and paste the code samples we provide below. These code samples run _getting data_-queries with a predefined user that as has an activated connection and authorized access especially for you.
 
 
-```
-
-# Getting Started
+## Summary
 
 1. To use any API provided by itembase, you have to [register your client](/api/clients) with our servers.
 2. To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, [you need to authorize](auth) with this information:
@@ -97,8 +40,10 @@ We are following the Oauth2 standard. Check out [this excellent video tutorial b
 * You can use the sandbox user "klaus" with password "itembase" for fooling around in the sandbox.
 3. By default, only the basic user information is available to you even if you have gained the user's authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
 * An additional *redirect uri* that is known on our side and where the activation endpoint will redirect after the process finished.
+* Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the [entities section](#entities) for a list of entities and their json schema definitions. 
+<aside class="success">Entities that originate from the same data connection have the same <i>source_id</i> attribute.</aside>
 
-# Reporting Issues
+## Reporting Issues
 Naturally we aim to deliver a reliable, well-behaving and well-documented service. Please tell us if you stumble across an issue you believe we need to address. We have open sourced our documentation as well so that you can raise issues there as well. Please report issues or raise pull requests here:
 
 |Component|Link|Notes
@@ -107,18 +52,17 @@ Naturally we aim to deliver a reliable, well-behaving and well-documented servic
 |*This* **Guides** section|[github.com/itembase/api-guides/issues](https://github.com/itembase/api-guides/issues)||
 |**API Documentation** section|[github.com/itembase/api-swagger/issues](https://github.com/itembase/api-guides/issues)|This is the swagger API explorer. Issues with the swagger-ui can be posted [here](https://github.com/swagger-api/swagger-ui).|
 
-# Sandbox vs Production
+## Sandbox vs Production
 
+* On sandbox, there is  **test user** is called `klaus`.
+ * His password is `itembase`. You can use this credentials to log in during OAuth flows.
+ * His user id is `13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3`. You can use this for getting data.
+ * His Magento shop connection id is `860b3402-6041-4194-bc71-986bf697f23c`. We have set up this Magento test shop for klaus and activated the connection. You can use the test connection to try out the POST and PUT /snippets endpoint.
+* The examples in this documentation use an access token for an activated, mock service we set up for this purpose. You should be able to just copy and paste and run them.
+* If you write a client for your application, the application needs to be activated for klaus' connection before you can get access to the data via the API. Alternatively, just try out our code examples.
+* On the sandbox the activation process needs to be initiated by the API client, not via any GUI. Please refer to the "activation" section below.
 
-<aside class="warning">Currently the sandbox does not provide the full functionality of our production system.</aside>
-
-* It's **not** possible to connect shops to our sandbox platform. Instead we're regularly providing new test data for a prepared test user.
-* This user's sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).
-* Data is currently only provided by us and can only be fetched for **one shop owner**.
- * This **test user** is called "klaus". His password is "itembase". You can use this credentials to log in during OAuth flows.
-* Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the "activation" section below.
-
-<aside class="success">We're working on providing a full features sandbox to the community and will keep you updated via the developers notes.</aside>
+<aside class="success">We're working on providing a graphical user interface to initiate the actication process with your registered service, replacing the user interface we currently have on production. We will keep you updated via the developers notes.</aside>
 
 We have separate versions of our services running on our Sandbox and Production systems, see the relevant URLs here:
 
@@ -133,9 +77,3 @@ We have separate versions of our services running on our Sandbox and Production 
 |API endpoint|https://api.itembase.io|https://sandbox.api.itembase.io|
 
 Transport in the production system is over HTTPS.
-
-# Getting Access
-Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in [our solution portal](http://connect.itembase.com/#/ib/connect/platforms). For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop's data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the "activation flow" (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside>
-
-Data from your shop is made available via our API using our *connectors* which use a private, internal API for writing data. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
-<aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside>

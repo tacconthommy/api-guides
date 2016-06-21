@@ -1005,3 +1005,135 @@ This product entity extends the "base product" and is exposed via the API.
   "pattern": "^[A-Z]{3}$"
 }
 ```
+
+## Snippet Version 1.0
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://api.itembase.io/v1/frontend.snippet.v1.0.schema.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the snippet content"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the snippet content",
+      "enum": ["css", "html", "js"]
+    },
+    "source_id": {
+      "type": "string",
+      "description": "itembase shop identifier"
+    },
+    "original_reference": {
+      "type": "string",
+      "description": "Original id of the entity on shop side"
+    },
+    "alias": {
+      "type": "string",
+      "description": "SP specific alias for the snippet"
+    },
+    "content": {
+      "type": "string",
+      "description": "Actual snippet code"
+    },
+    "placements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "$ref": "./frontend.page.v1.0.schema.json#/"
+          },
+          "location": {
+            "$ref": "./frontend.page.location.v1.0.schema.json#/"
+          }
+        }
+      },
+      "required": [
+        "page",
+        "location"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "description": "An ISO 8601 date format, i.E. YYYY-MM-DDThh:mm:ss.sTZD.",
+      "pattern": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "An ISO 8601 date format, i.E. YYYY-MM-DDThh:mm:ss.sTZD.",
+      "pattern": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"
+    }
+  },
+  "required": [
+    "type",
+    "content",
+    "placements"
+  ]
+
+
+```
+
+### Job Version 1.0
+
+POST /snippets requests will return a job. You can query this job then to determine if the job has been completed.
+
+```Json
+
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+   "created_at": {
+      "type": "string",
+      "description": "An ISO 8601 date format, i.e. YYYY-MM-DDThh:mm:ss.sTZD.",
+      "pattern": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"
+    },
+   "finished_at": {
+      "type": "string",
+      "description": "An ISO 8601 date format, i.e. YYYY-MM-DDThh:mm:ss.sTZD.",
+      "pattern": "^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"
+    },
+    "entity_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "created_at"
+  ]
+}
+```
+
+## Errors
+
+Errors are returned as an error message object along with the appropriate HTTP status code:
+
+```shell
+{                                                                                                                                                                                                                                         
+  "message": "Not found.",                                                                                                                                                                                                                
+  "code": 404                                                                                                                                                                                                                             
+} 
+```
+
+The following error codes are used:
+
+Error Code | Meaning
+---------- | -------
+400 | Bad Request
+401 | Unauthorized -- Your client_id is wrong or the user has not granted access yet
+403 | Forbidden
+404 | Not Found -- The specified id could not be resolved
+405 | Method Not Allowed -- PUT / PATCH / POST will be implemented in /v2
+500 | Internal Server Error -- We had a problem with our server. Try again later.
+503 | Service Unavailable -- We're temporarially offline for maintanance. Please try again later.

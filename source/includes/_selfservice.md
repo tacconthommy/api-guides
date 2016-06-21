@@ -1,8 +1,8 @@
-# Signing up users and add services with the selfservice API
+## Signing up users and add services with the selfservice API
 
 The itembase selfservice API enables any registered API client to easily sign up new users with them. It also offers a simple interface to add new services to existing itembase users.
 
-## What can I do with it?
+### Summary
 
 The following functionality is offered by the itembase selfservice API:
 
@@ -10,7 +10,7 @@ The following functionality is offered by the itembase selfservice API:
 - Add new shop connections to new or existing users
 - Add new services for existing users
 
-## How does it work?
+### How does it work?
 
 Selfservice API works with a simple token mechanism. By creating a token, you describe what your goal is and in which way it should be done. After that, you redirect the user to a specific endpoint that handles the generated token and guides him through the necessary steps. The endpoint is usable with or without an authenticated user. This way it can be used to sign up new users or to modify existing ones.
 
