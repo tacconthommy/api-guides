@@ -150,7 +150,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='https://api.itembase.com/api/clients'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://api.itembase.com/api/clients'>Register Your Application</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
 
@@ -159,86 +159,39 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id="tl-dr">tl;dr</h1>
+        <h1 id="introduction">Introduction</h1>
 
-<p>You need to <a href="/api/clients">register  your application</a> to get a client_id.</p>
+<p>Our API connects eCommerce services and platforms to each other. We do this by standardizing and normalizing data like transactions and products using <a href="#entities">Json schemas</a>. We also use OAuth2 for auth and built our API in a RESTful manner.</p>
 
-<p>You can issue (oauth2 authorized) range queries by datetimes (using created_at_from/-to) or get single entities by id.</p>
+<p>We have built multiple <em>connectors</em> to platforms like eBay, Prestashop and even Gmail. Imagine you want to get all the orders stored inside a Prestashop installation, all you have to do is to initiate an <em>activation flow</em> via our platform, activating our <em>Prestashop connector</em> for the shop owner on the one hand, and activating your service on the other. You can repeat this process for as many connectors as you like without having to deal with platform specifics like formats, authentication, api limitations etc. Our connectors and transformers aim to provide a consistent and user-friendly interface to ALL and ANY eCommerce data.</p>
 
-<p>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions. Entities that originate from the same data connection have the same <i>source_id</i> attribute.</p>
+<p><strong>To use the full potential of our platform</strong>, you want to learn about <a href="#getting-access">getting access</a> and <a href="#reading-and-writing-data">reading and writing data</a>. You also want to <a href="https://api.itembase.com/google-login">create a user account</a> and then <a href="https://api.itembase.com/api/clients">register your application</a> to get a client_id.</p>
 
-<p>A first example:
-<p align="center"><iframe height="520" src="https://showterm.io/63c932204e8a00a6546f4#slow" width="640"></iframe></p></p>
+<p><strong>For a quickstart</strong>, you can just copy and paste the code samples we provide below. These code samples run <em>getting data</em>-queries with a predefined user that as has an activated connection and authorized access especially for you.</p>
 
-<p>Example source:</p>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
-
-clear
-<span class="nb">echo
-echo</span> <span class="s2">"let's do an uncompressed http request."</span>
-<span class="nb">echo</span> <span class="s2">"we will aim for a non existing user to provoke a 404."</span>
-<span class="nb">echo
-echo
-echo
-echo
-</span>sleep 3
-curl --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo
-echo</span> <span class="s2">"the expected response is a json with a well-defined http error code."</span>
-sleep 1
-<span class="nb">echo
-echo</span> <span class="s2">"the API supports auto-negotiated compression:"</span>
-sleep 3
-curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/123thisiswrong"</span> | jq .
-<span class="nb">echo
-echo</span> <span class="s2">"let's fetch us some transaction from the ebay sandbox.."</span>
-<span class="nb">echo
-echo
-echo
-echo
-</span>sleep 3
-curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="s2">"Authorization: Bearer ZWY0NDRjMjQ5NDU1YmQ3YjNhMjdhNTAwOWY3NmZhZjNjZjk1ZDRhZTJmM2IxNzAzYWY5YzczNDI5ZTU5NzYyMQ"</span> <span class="s2">"http://sandbox.api.itembase.io/v1/users/13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3/transactions/ad0fab39aac5a5999df2f28b"</span> | jq .
-<span class="nb">echo
-</span>sleep 2
-<span class="nb">echo</span> <span class="s2">"awesome. thanks for watching!"</span>
-<span class="nb">echo</span> <span class="s2">"- the itembase team"</span>
-<span class="nb">echo
-</span>cat &lt;&lt; <span class="s2">"EOF"</span>
-  ___  __       _                       _
- |__ <span class="se">\/</span>_ |     | |                     | |
-    <span class="o">)</span> <span class="o">||</span> | ___ | |_    ___  ___  _ __  | |_  _   _  _ __  _   _
-   / / | |/ __|| __|  / __|/ _ <span class="se">\|</span> <span class="s1">'_ \ | __|| | | || '</span>__|| | | |
-  / /_ | |<span class="se">\_</span>_ <span class="se">\|</span> |_  | <span class="o">(</span>__|  __/| | | <span class="o">||</span> |_ | |_| <span class="o">||</span> |   | |_| |
- |____||_||___/ <span class="se">\_</span>_|  <span class="se">\_</span>__|<span class="se">\_</span>__||_| |_| <span class="se">\_</span>_| <span class="se">\_</span>_,_||_|    <span class="se">\_</span>_, |
-         _____                                             __/ |
-        / ____|                                           |___/
-   ___ | |      ___   _ __ ___   _ __ ___    ___  _ __  ___  ___
-  / _ <span class="se">\|</span> |     / _ <span class="se">\ </span>| <span class="s1">'_ ` _ \ | '</span>_ <span class="sb">`</span> _ <span class="se">\ </span> / _ <span class="se">\|</span> <span class="s1">'__|/ __|/ _ \
- |  __/| |____| (_) || | | | | || | | | | ||  __/| |  | (__|  __/
-  \___| \_____|\___/ |_| |_| |_||_| |_| |_| \___||_|   \___|\___|
-
-EOF
-echo
-echo
-
-
-</span></code></pre>
-
-<h1 id="getting-started">Getting Started</h1>
+<h2 id="summary">Summary</h2>
 
 <ol>
 <li>To use any API provided by itembase, you have to <a href="/api/clients">register your client</a> with our servers.</li>
-<li>To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, <a href="auth">you need to authorize</a> with this information:</li>
+<li>To get authorized API access via OAuth 2.0, or to use the itembase API as a sign-on service, <a href="auth">you need to authorize</a> with this information:
+
+<ul>
 <li>A <em>client id</em> which identifies your client with the server (one for sandbox, one for production)</li>
 <li>A <em>client secret</em> which you use to perform certain operations during auth process <aside class="warning">keep it in a safe place and <strong>never expose it</strong> to a client</aside></li>
 <li>One or more <em>redirect uris</em> (on your side) that can be used to send an auth code to you – there is a restricted set of URLs per client
 We are following the Oauth2 standard. Check out <a href="https://www.youtube.com/watch?v=io_r-0e3Qcw">this excellent video tutorial by KnpUniversity</a> which explains OAuth2 very well.<a style="float:right" href="https://www.youtube.com/watch?v=io_r-0e3Qcw" target="_blank"><img src="http://img.youtube.com/vi/io_r-0e3Qcw/0.jpg" alt="OAuth2 in 8 Steps Tutorial by KnpUniversity" width="250" border="5" /></a></li>
 <li>You can use the sandbox user &ldquo;klaus&rdquo; with password &ldquo;itembase&rdquo; for fooling around in the sandbox.</li>
-<li>By default, only the basic user information is available to you even if you have gained the user&rsquo;s authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:</li>
+</ul></li>
+<li>By default, only the basic user information is available to you even if you have gained the user&rsquo;s authorization. Therefore you may want to activate the data flow from the data connector to the API. To complete this process, you need:
+
+<ul>
 <li>An additional <em>redirect uri</em> that is known on our side and where the activation endpoint will redirect after the process finished.</li>
+<li>Each entity (e.g. /users/{user_id}/transaction) is a valid endpoint. Please refer to the <a href="#entities">entities section</a> for a list of entities and their json schema definitions.
+<aside class="success">Entities that originate from the same data connection have the same <i>source_id</i> attribute.</aside></li>
+</ul></li>
 </ol>
 
-<h1 id="reporting-issues">Reporting Issues</h1>
+<h2 id="reporting-issues">Reporting Issues</h2>
 
 <p>Naturally we aim to deliver a reliable, well-behaving and well-documented service. Please tell us if you stumble across an issue you believe we need to address. We have open sourced our documentation as well so that you can raise issues there as well. Please report issues or raise pull requests here:</p>
 
@@ -266,22 +219,24 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 </tr>
 </tbody></table>
 
-<h1 id="sandbox-vs-production">Sandbox vs Production</h1>
-
-<aside class="warning">Currently the sandbox does not provide the full functionality of our production system.</aside>
+<h2 id="sandbox-vs-production">Sandbox vs Production</h2>
 
 <ul>
-<li>It&rsquo;s <strong>not</strong> possible to connect shops to our sandbox platform. Instead we&rsquo;re regularly providing new test data for a prepared test user.</li>
-<li>This user&rsquo;s sandbox data is fetched from the eBay sandbox environment (any personal data is replaced with generated information).</li>
-<li>Data is currently only provided by us and can only be fetched for <strong>one shop owner</strong>.
+<li>On sandbox, there is  <strong>test user</strong> is called <code class="prettyprint">klaus</code>.
 
 <ul>
-<li>This <strong>test user</strong> is called &ldquo;klaus&rdquo;. His password is &ldquo;itembase&rdquo;. You can use this credentials to log in during OAuth flows.</li>
+<li>His password is <code class="prettyprint">itembase</code>. You can use his credentials to log in during OAuth flows.</li>
+<li>His user id is <code class="prettyprint">13ac2c74-7de3-4436-9a6d-2c94dd2b1fd3</code>. You can use this for getting data.</li>
+<li>His Magento shop connection id is <code class="prettyprint">860b3402-6041-4194-bc71-986bf697f23c</code>.</li>
+<li>His Magento shop is located at <code class="prettyprint">http://sandbox.magento.itembase.io:13001/</code></li>
+<li>We have installed this shop for klaus and activated the connection. You can use this connection to try out the POST and PUT /snippets endpoint.</li>
 </ul></li>
-<li>Every solution needs to be activated on our platform before one can get access to the data via the API. On the sandbox this process can only be initiated by the API client (not via any GUI). Please refer to the &ldquo;activation&rdquo; section below.</li>
+<li>The examples in this documentation use an access token for an activated, mock service we set up for this purpose. You should be able to just copy and paste and run them.</li>
+<li>If you write a client for your application, the application needs to be activated for klaus&rsquo; connection before you can get access to the data via the API. Alternatively, just try out our code examples.</li>
+<li>On the sandbox the activation process needs to be initiated by the API client, not via any GUI. Please refer to the &ldquo;activation&rdquo; section below.</li>
 </ul>
 
-<aside class="success">We&rsquo;re working on providing a full features sandbox to the community and will keep you updated via the developers notes.</aside>
+<aside class="success">We&rsquo;re working on providing a graphical user interface to initiate the actication process with your registered service, replacing the user interface we currently have on production. We will keep you updated via the developers notes.</aside>
 
 <p>We have separate versions of our services running on our Sandbox and Production systems, see the relevant URLs here:</p>
 
@@ -320,46 +275,20 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <tr>
 <td>API endpoint</td>
 <td>https://api.itembase.io</td>
-<td>https://sandbox.api.itembase.io</td>
+<td>http://sandbox.api.itembase.io</td>
 </tr>
 </tbody></table>
 
 <p>Transport in the production system is over HTTPS.</p>
 
-<h1 id="accessing-your-shop-data">Accessing Your Shop Data</h1>
+          <h1 id="getting-access">Getting Access</h1>
 
-<p>Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in <a href="http://connect.itembase.com/#/ib/connect/platforms">our solution portal</a>. For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop&rsquo;s data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the &ldquo;activation flow&rdquo; (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop, please contact us.</aside></p>
+<p><a name="getting-access"></a>
+Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in <a href="http://connect.itembase.com/#/ib/connect/platforms">our solution portal</a>. For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop&rsquo;s data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the &ldquo;activation flow&rdquo; (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop without connecting a specific solution, please contact us.</aside></p>
 
-<p>Data from your shop is made available via our API using our <em>connectors</em> which use a private, internal API for writing data. Our public API /v1 is read-only. We are currently developing /v2 which will support PUT/PATCH/POST operations.
-<aside class="success">Version 2 of our public API will support PUT, PATCH and POST operations. You will also be able to access stylesheets and other snippets.</aside></p>
+<p>Data from your shop is made available via our API using our <em>connectors</em> which use a private, internal API for writing data. Our public API /v1 is read-only. Our public API /v2 supports a new <em>snippets</em> endpoint with read-write access. See the &ldquo;reading and writing data&rdquo; section for more information.</p>
 
-<h1 id="getting-all-new-and-updated-products">Getting All New and Updated Products</h1>
-
-<p>Assuming that you already obtained a valid access token and activated your solution for a user:</p>
-
-<ul>
-<li><code class="prettyprint">access_token</code>: your OAuth2 client can get this using its client_id and refresh token</li>
-<li><code class="prettyprint">user_id</code>: the uuid of the user that has granted you access</li>
-<li><code class="prettyprint">base_url</code>: http://sandbox.api.itembase.io/v1/users</li>
-<li><code class="prettyprint">resource</code>: the resource you want to access, like &ldquo;products&rdquo;</li>
-</ul>
-
-<p>All resources expose created_at_from/-to and updated_at_from/to query parameter that can easily be used to get all new and updated entities. Just make sure to set a &ldquo;to&rdquo; parameter so that you can reuse it in your next scheduled GET call. See our api reference (above) for more details.<aside class="success">We are currently working on using HTTP2&rsquo;s server side push functionality, to make scheduled GET jobs unncessary.</aside></p>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
-
-access_token <span class="o">=</span> &lt; generate this using your oauth2.0 clients refresh token <span class="k">for </span>the given user &gt;
-current_datetime <span class="o">=</span> &lt; generate the current datetime <span class="k">in </span>ISO 8601 format &gt;
-last_check_datetime <span class="o">=</span> &lt; this is the last <span class="nb">time </span>the script was run, as date <span class="nb">time </span><span class="k">in </span>ISO 8601 format &gt;
-user_id <span class="o">=</span> &lt; the id of the user that has granted you access &gt;
-resource <span class="o">=</span> &lt; the name of the resource you want to get &gt;
-
-<span class="nv">auth_header</span><span class="o">=</span><span class="s2">"Authorization: Bearer </span><span class="nv">$access_token</span><span class="s2">"</span>
-<span class="nv">url</span><span class="o">=</span><span class="s2">"&lt;base_url&gt;/&lt;user_id&gt;/</span><span class="nv">$resource</span><span class="s2">?created_at_from=</span><span class="nv">$last_check_datetime</span><span class="s2">&amp;updated_at_to=</span><span class="nv">$current_datetime</span><span class="s2">"</span>
-
-curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="nv">$auth_header</span> <span class="nv">$url</span> | jq .
-</code></pre>
-
-          <h1 id="authorization-authentication-activation">Authorization, authentication, activation</h1>
+<h2 id="authorization-authentication-activation">Authorization, authentication, activation</h2>
 
 <p>We use OAuth 2.0 for authorization. Our auth server at <code class="prettyprint">accounts.itembase.com</code> combines an OAuth server that follows the standardized behaviour described in <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a> and a login server for user authentication.</p>
 
@@ -594,11 +523,11 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 
 <p>The <code class="prettyprint">Content-type</code> header will be sent with value: <code class="prettyprint">application/json</code>.</p>
 
-          <h1 id="signing-up-users-and-add-services-with-the-selfservice-api">Signing up users and add services with the selfservice API</h1>
+          <h2 id="signing-up-users-and-add-services-with-the-selfservice-api">Signing up users and add services with the selfservice API</h2>
 
 <p>The itembase selfservice API enables any registered API client to easily sign up new users with them. It also offers a simple interface to add new services to existing itembase users.</p>
 
-<h2 id="what-can-i-do-with-it">What can I do with it?</h2>
+<h3 id="summary">Summary</h3>
 
 <p>The following functionality is offered by the itembase selfservice API:</p>
 
@@ -608,7 +537,7 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 <li>Add new services for existing users</li>
 </ul>
 
-<h2 id="how-does-it-work">How does it work?</h2>
+<h3 id="how-does-it-work">How does it work?</h3>
 
 <p>Selfservice API works with a simple token mechanism. By creating a token, you describe what your goal is and in which way it should be done. After that, you redirect the user to a specific endpoint that handles the generated token and guides him through the necessary steps. The endpoint is usable with or without an authenticated user. This way it can be used to sign up new users or to modify existing ones.</p>
 
@@ -684,58 +613,117 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
 
 <p>This will lead to a final redirect to <code class="prettyprint">https://some.redirect/uri?token=90b6813533b1d7bcede0d9be39c8d14dadc9c780</code>.</p>
 
-          <h1 id="errors">Errors</h1>
+          <h1 id="reading-and-writing-data">Reading and Writing Data</h1>
 
-<p>Errors are returned as an error message object along with the appropriate HTTP status code:</p>
-<pre class="highlight shell"><code><span class="o">{</span>                                                                                                                                                                                                                                         
-  <span class="s2">"message"</span>: <span class="s2">"Not found."</span>,                                                                                                                                                                                                                
-  <span class="s2">"code"</span>: 404                                                                                                                                                                                                                             
-<span class="o">}</span> 
-</code></pre>
+<p><a name="reading-and-writing-data"></a>
+Our API uses HTTP methods and RESTful endpoints. The API authorization is using OAuth 2.0. All requests and response bodies are JSONs.</p>
 
-<p>The following error codes are used:</p>
+<p>In this section we will provide some examples. Some will contain a pregenerated access token which we have generated by</p>
+
+<ul>
+<li>registering an application to generate a client,</li>
+<li>performing an activation flow for the &ldquo;klaus&rdquo; test-user in the sandbox.</li>
+</ul>
+
+<h2 id="api-endpoints">API Endpoints</h2>
+
+<p>This is an overview of the available endpoints to get data. Please also check out <a href="https://api.itembase.com/api/docs/#!">our swagger-based API reference for all GET calls</a>. The POST /snippet functionality will be explained below.</p>
 
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Entity</th>
+<th>Supported Methods</th>
+<th>URL</th>
+<th>Notes</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request</td>
+<td>Transactions</td>
+<td>GET</td>
+<td>https://sandbox.api.itembase.io/v1/users/$user_id/transactions</td>
+<td></td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized &ndash; Your client_id is wrong or the user has not granted access yet</td>
+<td>Products</td>
+<td>GET</td>
+<td>https://sandbox.api.itembase.io/v1/users/$user_id/products</td>
+<td></td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden</td>
+<td>Buyers</td>
+<td>GET</td>
+<td>https://sandbox.api.itembase.io/v1/users/$user_id/buyers</td>
+<td></td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found &ndash; The specified id could not be resolved</td>
+<td>Profiles</td>
+<td>GET</td>
+<td>https://sandbox.api.itembase.io/v1/users/$user_id/profiles</td>
+<td></td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed &ndash; PUT / PATCH / POST will be implemented in /v2</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+<td>Snippets</td>
+<td>GET, POST, PUT</td>
+<td>https://sandbox.api.itembase.io/v2/users/$user_id/connections/$connection_id/snippets</td>
+<td>Be aware that the base path is <em>/v2</em>. To POST a snippet, you need to specify a single connection.</td>
 </tr>
 </tbody></table>
 
+<p>Where<code class="prettyprint">user_id</code> is the uuid of the user that has granted you access, and <code class="prettyprint">connection_id</code> the specific connection id that points to the user&rsquo;s shop connection. In the examples for our sandbox, we have already set up a connection for you.</p>
+
+<h2 id="getting-all-new-and-updated-products">Getting All New and Updated Products</h2>
+
+<p>Assuming that you already obtained a valid access token and activated your solution for a user:</p>
+
+<ul>
+<li><code class="prettyprint">access_token</code>: your OAuth2 client can get this using its client_id and refresh token</li>
+<li><code class="prettyprint">user_id</code>: the uuid of the user that has granted you access</li>
+<li><code class="prettyprint">base_url</code>: http://sandbox.api.itembase.io/v1/users</li>
+<li><code class="prettyprint">resource</code>: the resource you want to access, like &ldquo;products&rdquo;</li>
+</ul>
+
+<p>All resources expose inserted_at_from/-to, created_at_from/-to and updated_at_from/to query parameter that can easily be used to get all new and updated entities. Just make sure to set a &ldquo;to&rdquo; parameter so that you can reuse it in your next scheduled GET call. See our api reference (above) for more details.
+<aside class="notice">Inserted_at refers to our server time, created_at and updated_at to the connected remote platform&rsquo;s time.</aside></p>
+<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+
+access_token <span class="o">=</span> &lt; generate this using your oauth2.0 clients refresh token <span class="k">for </span>the given user &gt;
+current_datetime <span class="o">=</span> &lt; generate the current datetime <span class="k">in </span>ISO 8601 format &gt;
+last_check_datetime <span class="o">=</span> &lt; this is the last <span class="nb">time </span>the script was run, as date <span class="nb">time </span><span class="k">in </span>ISO 8601 format &gt;
+user_id <span class="o">=</span> &lt; the id of the user that has granted you access &gt;
+resource <span class="o">=</span> &lt; the name of the resource you want to get &gt;
+
+<span class="nv">auth_header</span><span class="o">=</span><span class="s2">"Authorization: Bearer </span><span class="nv">$access_token</span><span class="s2">"</span>
+<span class="nv">url</span><span class="o">=</span><span class="s2">"&lt;base_url&gt;/&lt;user_id&gt;/</span><span class="nv">$resource</span><span class="s2">?inserted_at_from=</span><span class="nv">$last_check_datetime</span><span class="s2">&amp;inserted_at_to=</span><span class="nv">$current_datetime</span><span class="s2">"</span>
+
+curl --compressed --verbose -X GET --header <span class="s2">"Accept: application/json"</span> --header <span class="nv">$auth_header</span> <span class="nv">$url</span> | jq .
+</code></pre>
+
+<p>Alternatively, you can try out the request below with a pregenerated access token for the test user.</p>
+
+<iframe src="http://api.apiembed.com/?source=http://sandbox.static.dataconnect.io/files/get_products.har&targets=shell:curl,node:unirest,java:unirest,python:requests,php:curl,ruby:native,go:native,java:okhttp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe>
+
+<h2 id="posting-a-snippet-to-a-shop-frontend">Posting a Snippet to a Shop Frontend</h2>
+
+<p>As a first public feature for version 2 of our API, you can add a snippet entity as a Json with CSS or Javascript content using our connectors. This happens asynchronously, so a flow could look like this:</p>
+
+<ol>
+<li>Follow the activation flow described in the &ldquo;getting access&rdquo;-section to activate your solution for a user&rsquo;s shop connection. If you are on sandbox, we have set up a magento shop for our test user and provide the details below.</li>
+<li>GET the user&rsquo;s profile and remember the shop&rsquo;s url.</li>
+<li>POST your snippet to the shop using the userid, connectionid and the <em>snippets</em> endpoint.
+<iframe src="http://api.apiembed.com/?source=http://sandbox.static.dataconnect.io/files/post_snippet.har&targets=shell:curl,node:unirest,java:unirest,python:requests,php:curl,ruby:native,go:native,java:okhttp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe></li>
+<li>The response will be a <em>job</em> entitiy. This contains a link you can check to see if the snippets has been deployed to the remote shop. This should happen in a few seconds.</li>
+<li>GET the <em>job</em> using the ID or a list cal and check the job status. Is it done? Then proceed.
+<iframe src="http://api.apiembed.com/?source=http://sandbox.static.dataconnect.io/files/get_jobs.har&targets=shell:curl,node:unirest,java:unirest,python:requests,php:curl,ruby:native,go:native,java:okhttp" frameborder="0" scrolling="no" width="100%" height="300px" seamless></iframe></li>
+<li>Visit the shop&rsquo;s url and <strong>enjoy the result</strong>.</li>
+<li>If you want to change your snippet, please use PUT to overwrite your posted snippet.</li>
+</ol>
+
           <h1 id="entities">Entities</h1>
 
-<p><a name="entities"></a>The itembase API /v1 uses the following entities (in Json Schema notation).</p>
+<p><a name="entities"></a>The itembase API /v1 uses the following entities (in Json Schema notation).
+There are four main entity types: <em>Transaction</em>, <em>Product</em>, <em>Buyer</em> and <em>Profile</em>.</p>
 
-<p>There are four main entity types: Transaction, Product, Buyer and Profile.</p>
+<p>Version /v2 added the <em>Snippet</em> (for frontend manipulation) and the <em>Job</em> (for asynchronous request handling) entities.</p>
 
 <aside class="notice">Entities that originate from the same data connection have the same source_id. Get the Profile resource which describes the user&rsquo;s profile on the remote platform (e.g. a seller&rsquo;s account, a shop profile) to understand where the related entities (i. E. with the same source_id) originate.</aside>
 
@@ -1730,6 +1718,158 @@ curl --compressed --verbose -X GET --header <span class="s2">"Accept: applicatio
   </span><span class="nt">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^[A-Z]{3}$"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+<h2 id="snippet-version-1-0">Snippet Version 1.0</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.itembase.io/v1/frontend.snippet.v1.0.schema.json"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unique identifier of the snippet content"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Type of the snippet content"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"css"</span><span class="p">,</span><span class="w"> </span><span class="s2">"html"</span><span class="p">,</span><span class="w"> </span><span class="s2">"js"</span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"source_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"itembase shop identifier"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"original_reference"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Original id of the entity on shop side"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SP specific alias for the snippet"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Actual snippet code"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"placements"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"$ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./frontend.page.v1.0.schema.json#/"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"$ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./frontend.page.location.v1.0.schema.json#/"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"page"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"location"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An ISO 8601 date format, i.E. YYYY-MM-DDThh:mm:ss.sTZD."</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An ISO 8601 date format, i.E. YYYY-MM-DDThh:mm:ss.sTZD."</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"content"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"placements"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+
+
+</span></code></pre>
+
+<h2 id="job-version-1-0">Job Version 1.0</h2>
+
+<p>POST /snippets requests will return a job. You can query this job then to determine if the job has been completed.</p>
+<pre class="highlight json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nt">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An ISO 8601 date format, i.e. YYYY-MM-DDThh:mm:ss.sTZD."</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+   </span><span class="nt">"finished_at"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An ISO 8601 date format, i.e. YYYY-MM-DDThh:mm:ss.sTZD."</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d\\.\\d+([+-][0-2]\\d:[0-5]\\d|Z)$"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"entity_id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h2 id="errors">Errors</h2>
+
+<p>Errors are returned as an error message object along with the appropriate HTTP status code:</p>
+<pre class="highlight shell"><code><span class="o">{</span>                                                                                                                                                                                                                                         
+  <span class="s2">"message"</span>: <span class="s2">"Not found."</span>,                                                                                                                                                                                                                
+  <span class="s2">"code"</span>: 404                                                                                                                                                                                                                             
+<span class="o">}</span> 
+</code></pre>
+
+<p>The following error codes are used:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; Your client_id is wrong or the user has not granted access yet</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified id could not be resolved</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; PUT / PATCH / POST will be implemented in /v2</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
