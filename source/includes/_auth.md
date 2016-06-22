@@ -37,6 +37,7 @@ A scope describes what resources you are able to access and in which way (read, 
 |connection.product|Read product data from connected platforms|Get access to product data of connected shops|
 |connection.profile|Read profile data from connected platforms|Get access to specific account data of a connected shop|
 |connection.buyer|Read customer information from connected platforms|Get access to customer data of a connected shop|
+|connection.snippets|Read and write custom frontend snippets|Get read and write access to a set of CSS/HTML/JS snippets that get included in a shop's frontend|
 
 The scope is a space seperated list of the scope items listed above. A valid example would be:
 
