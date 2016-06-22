@@ -76,6 +76,6 @@ We have separate versions of our services running on our Sandbox and Production 
 |User info URL|https://users.itembase.com/v1/me|http://sandbox.users.itembase.io/v1/me|
 |Activation endpoint|https://solutionservice.itembase.com|http://sandbox.solutionservice.itembase.io|
 |Selfservice API endpoint|https://selfservice.itembase.com|http://sandbox.selfservice.itembase.io|
-|API endpoint|https://api.itembase.io|https://sandbox.api.itembase.io|
+|API endpoint|https://api.itembase.io|http://sandbox.api.itembase.io|
 
 Transport in the production system is over HTTPS.
