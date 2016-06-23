@@ -79,7 +79,7 @@ The token is created in the Selfservice application. Of course your client also 
 }
 ```
 
-The response contains a URL you have to redirect the user to (`uri` field). You can provide a `redirect_uri` as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token string will be added as the GET parameter `ibsstoken`.
+The response contains a URL you have to redirect the user to (`uri` field). You can provide a `redirect_uri` as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter `ibsstoken`.
 
 <aside class="warning">The token is only valid for a limited amount of time, given in `expires_in`.</aside> 
 
