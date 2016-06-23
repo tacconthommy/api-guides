@@ -81,11 +81,11 @@ The token is created in the Selfservice application. Of course your client also 
 
 The response contains a URL you have to redirect the user to (`uri` field). You can provide a `redirect_uri` as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter `ibsstoken`.
 
-<aside class="warning">The token is only valid for a limited amount of time, given in `expires_in`.</aside> 
+<aside class="warning">The token is only valid for a limited amount of time, given in <i>expires_in</i>.</aside> 
 
 ### Example 2: Adding a new eBay store to an already authorised user
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write`.</aside>
+<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i>.</aside>
 
 ```shell
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ACCESSTOKEN" -d '{
@@ -122,7 +122,7 @@ The token is created in the Selfservice application. The token response will loo
 
 ### Example 3: Adding an existing eBay store to an already authorised user
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write` and `user.instances.read`.</aside>
+<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i> and <i>user.instances.read</i>.</aside>
 
 With the user's ID at hand, first we need to get the connections that the user currently has:
 
