@@ -13,7 +13,7 @@ The following functionality is offered by the itembase connect API:
 
 ### How does it work?
 
-You can use the itembase connect API with both new and already authorised users. The authorisation level differs from case to case.
+You can use the itembase connect API with both new users and users who have already been authorised. The authorisation level differs from case to case.
 
 |Use case|Authorization|
 |---|---|
@@ -54,11 +54,11 @@ curl -X POST -H "Content-Type: application/json" -d '{
 This will:
 
 * Authenticate an itembase user
-* Add a new eBay (component id 6) store to his account
+* Add a new eBay (component id 6) store to their account
 * Ask the user to authorize your client (identified by `YOUR_CLIENT_ID`)
 * Activate your client for the new eBay store
 
-The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to add. The token response will look like this: 
+The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to connect. The token response will look like this: 
 
 ```json
 {
@@ -79,7 +79,7 @@ The token is created in the Selfservice application. Of course your client also 
 }
 ```
 
-The response contains a URL you have to redirect the user to (`uri` field). You can provide a `redirect_uri` as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token string will be added as GET parameter.
+The response contains a URL you have to redirect the user to (`uri` field). You can provide a `redirect_uri` as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token string will be added as the GET parameter `ibsstoken`.
 
 <aside class="warning">The token is only valid for a limited amount of time, given in `expires_in`.</aside> 
 

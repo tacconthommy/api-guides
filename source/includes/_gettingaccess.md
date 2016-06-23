@@ -110,7 +110,7 @@ If you try to access data by a user with an expired access token, the API will r
 
 ## Obtaining a new access token using a refresh token
 
-If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:
+If an access token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:
 
 ```
 https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&client_secret=your_client_secret&grant_type=refresh_token&refresh_token=your_refresh_token#
