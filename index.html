@@ -268,7 +268,7 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <td>http://sandbox.solutionservice.itembase.io</td>
 </tr>
 <tr>
-<td>Selfservice API endpoint</td>
+<td>Connect API selfservice endpoint</td>
 <td>https://selfservice.itembase.com</td>
 <td>http://sandbox.selfservice.itembase.io</td>
 </tr>
@@ -444,9 +444,9 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 
 <p>If you try to access data by a user with an expired access token, the API will return a <strong>HTTP 401 - Unauthorized</strong> response.</p>
 
-<h3 id="obtaining-a-new-access-token-using-a-refresh-token">Obtaining a new access token using a refresh token</h3>
+<h2 id="obtaining-a-new-access-token-using-a-refresh-token">Obtaining a new access token using a refresh token</h2>
 
-<p>If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:</p>
+<p>If an access token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:</p>
 <pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#
 </code></pre>
 
@@ -523,25 +523,24 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 
 <p>The <code class="prettyprint">Content-type</code> header will be sent with value: <code class="prettyprint">application/json</code>.</p>
 
-          <h2 id="signing-up-users-and-add-services-with-the-selfservice-api">Signing up users and add services with the selfservice API</h2>
+          <h2 id="signing-up-users-and-add-services-with-the-connect-api">Signing up users and add services with the connect API</h2>
 
-<p>The itembase selfservice API enables any registered API client to easily sign up new users with them. It also offers a simple interface to add new services to existing itembase users.</p>
+<p>The itembase connect API offers an interface to access and add connectors as well as connections of new and existing users.</p>
 
 <h3 id="summary">Summary</h3>
 
-<p>The following functionality is offered by the itembase selfservice API:</p>
+<p>The following functionality is offered by the itembase connect API:</p>
 
 <ul>
-<li>Sign up new users with an API client</li>
-<li>Add new shop connections to new or existing users</li>
-<li>Add new services for existing users</li>
+<li>Get all connections a user has (via Connections endpoint)</li>
+<li>Sign up new users with an API client (via SelfService endpoint)</li>
+<li>Add new connections to new or existing users (via SelfService endpoint)</li>
+<li>Add new services for existing users (via SelfService endpoint)</li>
 </ul>
 
 <h3 id="how-does-it-work">How does it work?</h3>
 
-<p>Selfservice API works with a simple token mechanism. By creating a token, you describe what your goal is and in which way it should be done. After that, you redirect the user to a specific endpoint that handles the generated token and guides him through the necessary steps. The endpoint is usable with or without an authenticated user. This way it can be used to sign up new users or to modify existing ones.</p>
-
-<p>Each service that itembase users can activate is described with a <em>component id</em>. This is usually a numeric ID. When a service was activated for a user, a single instance of it is created which is defined by an <em>instance id</em> – usually a uuid v4. Both can be used with the selfservice API, but it requires different levels of authorization:</p>
+<p>You can use the itembase connect API with both new users and users who have already been authorised. The authorisation level differs from case to case.</p>
 
 <table><thead>
 <tr>
@@ -554,6 +553,10 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 <td>(none)</td>
 </tr>
 <tr>
+<td>Get all existing connections of a user.</td>
+<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.read</code></td>
+</tr>
+<tr>
 <td>Add a new ebay store to an existing user.</td>
 <td>OAuth AccessToken with scope <code class="prettyprint">user.instances.write</code></td>
 </tr>
@@ -563,29 +566,89 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 </tr>
 </tbody></table>
 
-<h3 id="example-signing-up-a-new-user-with-ebay">Example: Signing up a new user with eBay</h3>
+<p>Each connector at itembase is described with a so-called component ID. The following core connectors are currently supported:</p>
 
-<p>Let&rsquo;s assume we want to ask the user to signup with his eBay store for our client via itembase. This implicitely means we have to:</p>
+<table><thead>
+<tr>
+<th>Connector</th>
+<th>Component id production</th>
+<th>Component id sandbox</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>eBay</td>
+<td>6</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Shopify</td>
+<td>7</td>
+<td>-</td>
+</tr>
+<tr>
+<td>SEO shop</td>
+<td>20</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Big Commerce</td>
+<td>12</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Magento</td>
+<td>11</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Prestashop</td>
+<td>14</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Gambio</td>
+<td>34</td>
+<td>-</td>
+</tr>
+<tr>
+<td>WooCommerce</td>
+<td>22</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Virtuemart</td>
+<td>23</td>
+<td>-</td>
+</tr>
+</tbody></table>
 
-<ul>
-<li>Authenticate an itembase user</li>
-<li>Add a new eBay store to his account</li>
-<li>Ask the user to authorize your client</li>
-<li>Activate your client for the new eBay store</li>
-</ul>
+<p>Let&rsquo;s take a look at some examples to see what is possible.</p>
 
-<p>All of those steps is taken care of with the selfservice endpoint on our side. You just need to describe what you want to do. For this, you need to create a new token with a <code class="prettyprint">POST</code> call to the selfservice API. In the payload, define your client id and the IDs of the components you want to add (in this case just <code class="prettyprint">6</code> which describes ebay):</p>
+<aside class="warning">All examples assume that you implemented the OAuth & activation flow on your side.</aside>
+
+<h3 id="example-1-signing-up-a-new-user-with-ebay">Example 1: Signing up a new user with eBay</h3>
+
+<aside class="success">For this example no authorisation is required, but you need to have a client id.</aside>
 <pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -d <span class="s1">'{
     "component_ids": [6],
-    "client_id": "123_myclientid",
+    "client_id": "YOUR_CLIENT_ID",
     "action": "create"
 }'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
 </code></pre>
 
-<p>The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to add. The token response will look like this: </p>
+<p>This will:</p>
+
+<ul>
+<li>Authenticate an itembase user</li>
+<li>Add a new eBay (component id 6) store to their account</li>
+<li>Ask the user to authorize your client (identified by <code class="prettyprint">YOUR_CLIENT_ID</code>)</li>
+<li>Activate your client for the new eBay store</li>
+</ul>
+
+<p>The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to connect. The token response will look like this: </p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123_myclientid"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -601,17 +664,128 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>Please note that a token is only valid for a limited amount of time, given in <code class="prettyprint">expires_in</code> field as seconds.</p>
+<p>The response contains a URL you have to redirect the user to (<code class="prettyprint">uri</code> field). You can provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter <code class="prettyprint">ibsstoken</code>.</p>
 
-<p>The response contains a URL you have to redirect the user to (<code class="prettyprint">uri</code> field). If you do this, all the steps mentioned above will be taken care of.</p>
+<aside class="warning">The token is only valid for a limited amount of time, given in `expires_in`.</aside> 
 
-<p>You probably want to provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token string will be added as GET parameter. </p>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/process/90b6813533b1d7bcede0d9be39c8d14dadc9c780?redirect_uri=https://some.redirect/uri</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">selfservice.itembase.com</span>
-<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-cache</span>
+<h3 id="example-2-adding-a-new-ebay-store-to-an-already-authorised-user">Example 2: Adding a new eBay store to an already authorised user</h3>
+
+<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write`.</aside>
+<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> -d <span class="s1">'{
+    "component_ids": [6],
+    "action": "create"
+}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
 </code></pre>
 
-<p>This will lead to a final redirect to <code class="prettyprint">https://some.redirect/uri?token=90b6813533b1d7bcede0d9be39c8d14dadc9c780</code>.</p>
+<p>This will:</p>
+
+<ul>
+<li>Add a new eBay (component id 6) store to the authenticated user&rsquo;s account</li>
+<li>Activate your client for the new eBay store</li>
+</ul>
+
+<p>The token is created in the Selfservice application. The token response will look like this: </p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOME_USER_ID"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="mi">77</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="example-3-adding-an-existing-ebay-store-to-an-already-authorised-user">Example 3: Adding an existing eBay store to an already authorised user</h3>
+
+<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write` and `user.instances.read`.</aside>
+
+<p>With the user&rsquo;s ID at hand, first we need to get the connections that the user currently has:</p>
+<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> <span class="s2">"https://api.itembase.com/v1/users/SOME_USER_ID/instances"</span>
+</code></pre>
+
+<p>This will list all the connections of the user:</p>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"component_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"component_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.valid"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"meta"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5/meta"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connections"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5/connections"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"64cda8a7-2629-4ece-ba0e-5ff3b70aaec4"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"component_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"component_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solution"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"meta"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4/meta"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connections"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4/connections"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>The first entry with the instance id <code class="prettyprint">1768e0de-0c78-4a5e-bce3-44d2d8a63fa5</code> is an ebay connection. Let&rsquo;s assume we want to connect this to our solution. We use the self service with our AccessToken again:</p>
+<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> -d <span class="s1">'{
+    "instance_id": "1768e0de-0c78-4a5e-bce3-44d2d8a63fa5",
+    "action": "create"
+}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
+</code></pre>
+
+<p>This will:</p>
+
+<ul>
+<li>Activate your client for the existing eBay store</li>
+</ul>
+
+<p>Everything else works as in the previous examples. The token response will look like this: </p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOME_USER_ID"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="mi">77</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 
           <h1 id="reading-and-writing-data">Reading and Writing Data</h1>
 
