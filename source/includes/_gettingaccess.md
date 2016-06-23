@@ -108,7 +108,7 @@ All tokens will expire in "expires_in" seconds as recommended by [RFC 6749 for O
 
 If you try to access data by a user with an expired access token, the API will return a **HTTP 401 - Unauthorized** response.
 
-### Obtaining a new access token using a refresh token
+## Obtaining a new access token using a refresh token
 
 If an acces token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:
 

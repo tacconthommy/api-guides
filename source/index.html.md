@@ -75,7 +75,7 @@ We have separate versions of our services running on our Sandbox and Production 
 |OAuth2 token URL|https://accounts.itembase.com/oauth/v2/token|http://sandbox.accounts.itembase.io/oauth/v2/token|
 |User info URL|https://users.itembase.com/v1/me|http://sandbox.users.itembase.io/v1/me|
 |Activation endpoint|https://solutionservice.itembase.com|http://sandbox.solutionservice.itembase.io|
-|Selfservice API endpoint|https://selfservice.itembase.com|http://sandbox.selfservice.itembase.io|
+|Connect API selfservice endpoint|https://selfservice.itembase.com|http://sandbox.selfservice.itembase.io|
 |API endpoint|https://api.itembase.io|http://sandbox.api.itembase.io|
 
 Transport in the production system is over HTTPS.
