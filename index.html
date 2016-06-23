@@ -666,11 +666,11 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 
 <p>The response contains a URL you have to redirect the user to (<code class="prettyprint">uri</code> field). You can provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter <code class="prettyprint">ibsstoken</code>.</p>
 
-<aside class="warning">The token is only valid for a limited amount of time, given in `expires_in`.</aside> 
+<aside class="warning">The token is only valid for a limited amount of time, given in <i>expires_in</i>.</aside> 
 
 <h3 id="example-2-adding-a-new-ebay-store-to-an-already-authorised-user">Example 2: Adding a new eBay store to an already authorised user</h3>
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write`.</aside>
+<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i>.</aside>
 <pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> -d <span class="s1">'{
     "component_ids": [6],
     "action": "create"
@@ -705,7 +705,7 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 
 <h3 id="example-3-adding-an-existing-ebay-store-to-an-already-authorised-user">Example 3: Adding an existing eBay store to an already authorised user</h3>
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope `user.instances.write` and `user.instances.read`.</aside>
+<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i> and <i>user.instances.read</i>.</aside>
 
 <p>With the user&rsquo;s ID at hand, first we need to get the connections that the user currently has:</p>
 <pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> <span class="s2">"https://api.itembase.com/v1/users/SOME_USER_ID/instances"</span>
