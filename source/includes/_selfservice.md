@@ -1,4 +1,5 @@
-## Signing up users and add services with the connect API
+# Signing up users and add services with the connect API
+<a name="connect-api-ss"></a>
 
 The itembase connect API offers an interface to access and add connectors as well as connections of new and existing users.
 
