@@ -42,7 +42,7 @@ Let's take a look at some examples to see what is possible.
 
 ### Example 1: Signing up a new user with eBay
 
-<aside class="success">For this example no authorisation is required, but you need to have a client id.</aside>
+<aside class="notice">For this example no authorisation is required, but you need to have a client id.</aside>
 
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
@@ -85,7 +85,7 @@ The response contains a URL you have to redirect the user to (`uri` field). You 
 
 ### Example 2: Adding a new eBay store to an already authorised user
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i>.</aside>
+<aside class="notice">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i>.</aside>
 
 ```shell
 curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ACCESSTOKEN" -d '{
@@ -122,7 +122,7 @@ The token is created in the Selfservice application. The token response will loo
 
 ### Example 3: Adding an existing eBay store to an already authorised user
 
-<aside class="warning">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i> and <i>user.instances.read</i>.</aside>
+<aside class="notice">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i> and <i>user.instances.read</i>.</aside>
 
 With the user's ID at hand, first we need to get the connections that the user currently has:
 
