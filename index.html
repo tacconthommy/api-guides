@@ -268,9 +268,9 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
 <td>http://sandbox.solutionservice.itembase.io</td>
 </tr>
 <tr>
-<td>Connect API selfservice endpoint</td>
-<td>https://selfservice.itembase.com</td>
-<td>http://sandbox.selfservice.itembase.io</td>
+<td>Connect API endpoint</td>
+<td>https://api.dataconnect.io/connect/v2</td>
+<td>https://sandbox.dataconnect.io/connect/v2</td>
 </tr>
 <tr>
 <td>API endpoint</td>
@@ -284,49 +284,55 @@ We are following the Oauth2 standard. Check out <a href="https://www.youtube.com
           <h1 id="getting-access">Getting Access</h1>
 
 <p><a name="getting-access"></a>
-Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bigcommerce) using the wizard in <a href="http://connect.itembase.com/#/ib/connect/platforms">our solution portal</a>. For standalone shops like Magento you can download and install the necessary itembase connector plugin. The solution portal will ask your permission to access your shop&rsquo;s data and then tell our connectors to collect and forward the data to our API. In order to access the data, you will need to implement an API client that implements the &ldquo;activation flow&rdquo; (see above) and register it with us for production usage.<aside class="success">This flow was designed with solution providers in mind. If you would like us to implement a feature that gives you instant access as soon as you connect your shop without connecting a specific solution, please contact us.</aside></p>
+The data offered by us are owned by users. To get access to it, you need to be authorised by them. This is handled by an OAuth 2.0 based authorisation process. Using our connect API you can then ask the user to grant you access to certain shops (called <em>connections</em>).</p>
 
-<p>Data from your shop is made available via our API using our <em>connectors</em> which use a private, internal API for writing data. Our public API /v1 is read-only. Our public API /v2 supports a new <em>snippets</em> endpoint with read-write access. See the &ldquo;reading and writing data&rdquo; section for more information.</p>
+<h2 id="authorization-and-authentication">Authorization and authentication</h2>
 
-<h2 id="authorization-authentication-activation">Authorization, authentication, activation</h2>
+<p>Our auth server at <code class="prettyprint">accounts.itembase.com</code> combines an OAuth server that follows the standardized behaviour described in <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a> and a login server for user authentication.</p>
 
-<p>We use OAuth 2.0 for authorization. Our auth server at <code class="prettyprint">accounts.itembase.com</code> combines an OAuth server that follows the standardized behaviour described in <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a> and a login server for user authentication.</p>
+<p>As OAuth 2.0 is a widely used standard, we recommend to use one of the many libraries that implement the flow. Some examples:</p>
 
-<p>The following steps are necessary when a user authorizes your client to request data for his account from the itembase API. It is assumed that you follow the <code class="prettyprint">authorization_code</code> grant type / flow. Other flows work according to <a href="https://tools.ietf.org/html/rfc6749">the OAuth 2.0 RFC specification</a>.</p>
+<ul>
+<li><a href="https://github.com/thephpleague/oauth2-client">thephpleague/oauth2-client for PHP</a></li>
+<li><a href="https://github.com/requests/requests-oauthlib">requests/requests-oauthlib for Python</a></li>
+<li><a href="https://github.com/golang/oauth2">golang/oauth2 for Go</a></li>
+<li><a href="https://cwiki.apache.org/confluence/display/OLTU/OAuth+2.0+Client+Quickstart">Apache Oltu for Java</a></li>
+</ul>
 
-<h2 id="activation-or-authorization">Activation or Authorization?</h2>
+<p>You have to follow the <code class="prettyprint">authorization_code</code> grant type / flow.</p>
 
-<p>While the authorization is always necessary for a basic connection to our API, the activation steps might be optional for you, if you do not need any data besides basic user information. Please refer to this overview:</p>
+<p>The relevant URLs for our auth servers are:</p>
 
 <table><thead>
 <tr>
-<th>Use case</th>
-<th>Implement authorization (OAuth)</th>
-<th>Implement activation</th>
+<th>Type</th>
+<th>Production</th>
+<th>Sandbox</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>Use itembase as login/registration system</td>
-<td>yes</td>
-<td>no</td>
+<td>OAuth2 auth URL</td>
+<td>https://accounts.itembase.com/oauth/v2/auth</td>
+<td>http://sandbox.accounts.itembase.io/oauth/v2/auth</td>
 </tr>
 <tr>
-<td>Request basic user information</td>
-<td>yes</td>
-<td>no</td>
+<td>OAuth2 whisper auth URL</td>
+<td>https://accounts.itembase.com/w/oauth/v2/auth</td>
+<td>http://sandbox.accounts.itembase.io/w/oauth/v2/auth</td>
 </tr>
 <tr>
-<td>Get access to itembase APIs</td>
-<td>yes</td>
-<td>yes</td>
+<td>OAuth2 token URL</td>
+<td>https://accounts.itembase.com/oauth/v2/token</td>
+<td>http://sandbox.accounts.itembase.io/oauth/v2/token</td>
+</tr>
+<tr>
+<td>User info URL</td>
+<td>https://users.itembase.com/v1/me</td>
+<td>http://sandbox.users.itembase.io/v1/me</td>
 </tr>
 </tbody></table>
 
-<p>It doesn&rsquo;t matter if the process is initiated from the third party (e.g. with a <strong>connect with itembase</strong> button on your side) or from itembase side (from the Solution Portal): It always works the same and requires no dedicated handling on the third party side.</p>
-
-<p><img alt="itembase authentication and activation" src="https://itembase.github.io/api-guides/images/auth_activation.png" /></p>
-
-<h2 id="about-scopes">About Scopes</h2>
+<h3 id="scopes">Scopes</h3>
 
 <p>A scope describes what resources you are able to access and in which way (read, create, edit). During the autorization process they are shown to the user in a readable form. Currently itembase supports the following scopes:</p>
 
@@ -380,91 +386,9 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 
 <p>This would give your client access to APIs that return basic user information and transaction data for user defined shop connections.</p>
 
-<h2 id="initiating-the-process">Initiating the process</h2>
+<h3 id="getting-basic-user-information">Getting basic user information</h3>
 
-<p>You need to integrate a button in the frontend of your system that the user can click to connect his itembase account with your client. If he clicks it, you need to redirect to the authentication URL of our accounts server with your <em>client id</em>:</p>
-<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/auth?response_type=code&amp;client_id=your_client_id&amp;scope=user.minimal&amp;redirect_uri=http://your.service/connect/itembase&amp;grant_type=authorization_code
-</code></pre>
-
-<p>Replace the placeholders with your actual data: <code class="prettyprint">your_client_id</code> becomes the client id you got from itembase, <code class="prettyprint">http://your.service/connect/itembase</code> the redirect URI you registered for your client. Also set the scope you need as value of the <code class="prettyprint">scope</code> parameter.</p>
-
-<h2 id="the-authorization-and-authentication-step">The authorization and authentication step</h2>
-
-<p>After the redirect to the authentication URL of the itembase accounts server, the itembase user will be authenticated. Depending on his login status, he may need to enter his username and password or even create a new account if he has none yet. This happens completely on our side.</p>
-
-<p>When the user was authenticated successfully, he will see a website that asks him to accept or decline that your client wants to have access to his data on itembase. The dialogue lists all scopes you requested initially.</p>
-
-<p>In case of an error (e.g. if the user does not accept), the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> with an error response:</p>
-<pre class="highlight plaintext"><code>http://your.service/connect/itembase?error=access_denied
-</code></pre>
-
-<p>If the user accepted your client, the itembase accounts server redirects to your <code class="prettyprint">redirect_uri</code> including an authorization code (parameter <code class="prettyprint">code</code>):</p>
-<pre class="highlight plaintext"><code>http://your.service/connect/itembase?code=1234someauthcode
-</code></pre>
-
-<p>This code is only valid for some seconds and can only be used once. You need it to obtain a refresh token and an access token.</p>
-
-<h2 id="obtaining-your-first-tokens">Obtaining your first tokens</h2>
-
-<p>With the authorization code you can request an access token and a refresh token the first time. This request goes to the accounts server&rsquo;s token endpoint and <strong>has to be sent server side</strong> since it includes your client secret in this flow:</p>
-<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=authorization_code&amp;code=1234someauthcode&amp;redirect_uri=http://your.service/connect/
-</code></pre>
-
-<p>The <code class="prettyprint">redirect_uri</code> will be ignored in <em>authorization_code</em> flow, but still has to be given. Please use an allowed redirect_uri (e.g. the one from the <em>auth</em> call) for this. You will receice a JSON response that returns your tokens:</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">2592000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user.minimal"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The access token is valid for the one particular user you obtained it for. You need to store this data to be able to request our APIs.</p>
-
-<h2 id="expiration-of-refresh-and-access-tokens">Expiration of refresh and access tokens</h2>
-
-<p>All tokens will expire in &ldquo;expires_in&rdquo; seconds as recommended by <a href="https://tools.ietf.org/html/rfc6749#section-4.2.2">RFC 6749 for OAuth 2.0</a>. We defined the following expiration periods:</p>
-
-<table><thead>
-<tr>
-<th>Token type</th>
-<th>Expires in</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Access token</td>
-<td>1 hour</td>
-</tr>
-<tr>
-<td>Refresh token</td>
-<td>~34 days</td>
-</tr>
-</tbody></table>
-
-<p>If you try to access data by a user with an expired access token, the API will return a <strong>HTTP 401 - Unauthorized</strong> response.</p>
-
-<h2 id="obtaining-a-new-access-token-using-a-refresh-token">Obtaining a new access token using a refresh token</h2>
-
-<p>If an access token has expired, you can use a refresh token you obtained during the activation step above to get a new access token. Just issue a GET call to the token endpoint of the accounts server like so:</p>
-<pre class="highlight plaintext"><code>https://accounts.itembase.com/oauth/v2/token?client_id=your_client_id&amp;client_secret=your_client_secret&amp;grant_type=refresh_token&amp;refresh_token=your_refresh_token#
-</code></pre>
-
-<p>This call returns a JSON with a new set of tokens that replaces the old pair.</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MjU5MGM0YjJkZmIyZDZmZmE3NGQwZGZkMzYxNTBhYjA2M2Vj"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">2592000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user.minimal"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ODk3YjA5MjM3YzNjMzQ1NjY5NDZiZGZjMDI2ODQ1NazZ2Vj"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>You should obtain a new access token latest before your refresh token expires. If the refresh token expires as well, you will need to repeat the authorization/authentication process with the user involved to obtain a new pair of tokens.</p>
-
-<h2 id="getting-basic-user-information">Getting basic user information</h2>
-
-<p>For almost all API calls at itembase you need a user id. To obtain the one that your AccessToken is valid for, there is an user info call that you can use if <code class="prettyprint">user.minimal</code> is part of your scope:</p>
+<p>For almost all API calls at itembase you need a user id. Most OAuth libraries get the basic user information that include this for you automatically as soon as you fetched your first access token. In case yours doesn&rsquo;t do that, here&rsquo;s how you can do it and how the user response looks like. </p>
 <pre class="highlight shell"><code>curl -X GET --header <span class="s2">"Authorization: Bearer your_access_token"</span> <span class="s2">"https://users.itembase.com/v1/me"</span>
 </code></pre>
 
@@ -482,91 +406,17 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>We recommend you to store your access token and refresh token securely on your server along with the <code class="prettyprint">uuid</code> they are valid for. You can also create a user on your side or match the one that was currently logged in with the data you receive from this call.</p>
+<p>Access tokens and refresh tokens should be securely stored on your server along with the <code class="prettyprint">uuid</code> they are valid for. You can also create a user on your side or match the one that was currently logged in with the data you receive from this call.</p>
 
-          <h2 id="activation">Activation</h2>
+<h2 id="getting-access-to-connection-data">Getting access to connection data</h2>
 
-<p>While authorization allows your client to request data owned by an itembase user, activation is used to bind the data stream of a shop to the public API. Please note that this step is necessary if your client is part of the itembase solution directory and uses data from user defined data connections.</p>
-
-<p>The activation process requires that you obtained a valid access token before (see above).</p>
-
-<p>Activation contains of 2 simple steps: An API call and a redirect.</p>
-
-<h3 id="get-the-activation-code">Get the activation code</h3>
-
-<p>First you need to perform an API call (<strong>on server side</strong>) to our activation endpoint. Call it with a valid access token in the header:</p>
-<pre class="highlight shell"><code>curl -X GET --header <span class="s2">"Authorization: Bearer your_access_token"</span> <span class="s2">"https://solutionservice.itembase.com/activate"</span>
-</code></pre>
-
-<p>The service will generate an <em>activation URL</em> for you that is valid for the user authenticated with the given access token and will expire at a given point in time. This is returned to you in a JSON response:</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"activation_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://solutionservice.itembase.com/finish/some_activation_code"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"expires_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1427361493</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>Now the only thing that&rsquo;s left is to redirect to the URL. This will activate your solution for the itembase user. Depending of the starting point of the authentication / activation process, itembase will redirect back to you or to the itembase solution directory.</p>
-
-<h3 id="activation-notification-optional">Activation notification (optional)</h3>
-
-<p>Sometimes there is need to do additional some actions when activation is completed. In order to be notified about such event you can pass as <code class="prettyprint">GET</code> parameter <code class="prettyprint">notification_uri</code> where itembase system will send notification as soon as activation step is finalized succsefully after redirect to <code class="prettyprint">activation_url</code>.</p>
-
-<p>So for example <code class="prettyprint">activation_url</code> should be modified like:</p>
-<pre class="highlight plaintext"><code>https://solutionservice.itembase.com/finish/some_activation_code?notification_uri=http%3A%2F%2Fsome%2Fnotification%2Furi
-</code></pre>
-
-<h4 id="notification-payload">Notification payload</h4>
-
-<p>As soon as activation step was succsefully completed a <code class="prettyprint">POST</code> request will be send to <code class="prettyprint">notification_uri</code> provided with the following payload:</p>
-<pre class="highlight json"><code><span class="p">{</span><span class="nt">"user_uuid"</span><span class="p">:</span><span class="s2">"user_uuid for which solution was activated"</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-<p>The <code class="prettyprint">Content-type</code> header will be sent with value: <code class="prettyprint">application/json</code>.</p>
-
-          <h1 id="signing-up-users-and-add-services-with-the-connect-api">Signing up users and add services with the connect API</h1>
-
-<p><a name="connect-api-ss"></a></p>
-
-<p>The itembase connect API offers an interface to access and add connectors as well as connections of new and existing users.</p>
-
-<h3 id="summary">Summary</h3>
-
-<p>The following functionality is offered by the itembase connect API:</p>
+<p>The connect API works with three entities:</p>
 
 <ul>
-<li>Get all connections a user has (via Connections endpoint)</li>
-<li>Sign up new users with an API client (via SelfService endpoint)</li>
-<li>Add new connections to new or existing users (via SelfService endpoint)</li>
-<li>Add new services for existing users (via SelfService endpoint)</li>
+<li><em>Connectors</em>, which describe a platform available through our APIs (e.g. eBay)</li>
+<li><em>Connections</em>, which describe single instances of <em>Connectors</em> that are owned by a user (e.g. the eBay store of a single user)</li>
+<li><em>Links</em>, which describe a data flow between two <em>Connections</em> (e.g. the eBay store of a single user is <em>linked</em> to your solution, so you receive data from it) </li>
 </ul>
-
-<h3 id="how-does-it-work">How does it work?</h3>
-
-<p>You can use the itembase connect API with both new users and users who have already been authorised. The authorisation level differs from case to case.</p>
-
-<table><thead>
-<tr>
-<th>Use case</th>
-<th>Authorization</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Create a <em>signup with eBay</em> functionality for your client.</td>
-<td>(none)</td>
-</tr>
-<tr>
-<td>Get all existing connections of a user.</td>
-<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.read</code></td>
-</tr>
-<tr>
-<td>Add a new ebay store to an existing user.</td>
-<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.write</code></td>
-</tr>
-<tr>
-<td>Activate your client for an existing user&rsquo;s ebay store.</td>
-<td>OAuth AccessToken with scope <code class="prettyprint">user.instances.write</code></td>
-</tr>
-</tbody></table>
 
 <p>Each connector at itembase is described with a so-called component ID. The following core connectors are currently supported:</p>
 
@@ -624,170 +474,136 @@ Out-of-the-box you can connect any platform-based shop (like eBay, shopify or bi
 </tr>
 </tbody></table>
 
-<p>Let&rsquo;s take a look at some examples to see what is possible.</p>
+<h3 id="swagger-documentation">Swagger documentation</h3>
 
-<aside class="warning">All examples assume that you implemented the OAuth & activation flow on your side.</aside>
+<p>The swagger documentation is available <a href="https://swaggerhub.com/api/thommy/connect_api/2.0">on Swaggerhub</a>.</p>
+
+<h3 id="possible-use-cases">Possible use cases</h3>
+
+<p>By combining the connect API and the authorisation (see above) in the right way, the following flows are possible:</p>
+
+<ol>
+<li>Authenticating a user (sign up or login) for your client (&ldquo;Login with itembase&rdquo;)</li>
+<li>Authorising a user (sign up or login) for your client with a certain Connector (e.g. &ldquo;Login with eBay&rdquo;)</li>
+<li>Getting all available Connections owned by an already authorised user</li>
+<li>Asking an already authorised user to link an existing or a new Connection to your Solution</li>
+</ol>
+
+<p>Lets take a look at some examples.</p>
 
 <h3 id="example-1-signing-up-a-new-user-with-ebay">Example 1: Signing up a new user with eBay</h3>
 
-<aside class="notice">For this example no authorisation is required, but you need to have a client id.</aside>
-<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -d <span class="s1">'{
-    "component_ids": [6],
-    "client_id": "YOUR_CLIENT_ID",
-    "action": "create"
-}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
+<p>Prerequisites:</p>
+
+<ul>
+<li>You have a client id to use the dataconnect API</li>
+</ul>
+<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"X-IB-CLIENTID: YOUR_CLIENT_ID"</span> -d <span class="s1">'{
+    "connections": [
+        {
+            "connector_id": 6
+        }
+    ]
+}'</span> <span class="s2">"https://api.dataconnect.io/connect/v2/links"</span>
 </code></pre>
 
 <p>This will:</p>
 
 <ul>
-<li>Authenticate an itembase user</li>
-<li>Add a new eBay (component id 6) store to their account</li>
-<li>Ask the user to authorize your client (identified by <code class="prettyprint">YOUR_CLIENT_ID</code>)</li>
+<li>Authenticate a user</li>
+<li>Add a new eBay (connector id 6) store to their account</li>
 <li>Activate your client for the new eBay store</li>
 </ul>
 
-<p>The token is created in the Selfservice application. Of course your client also has a certain component ID in our system which is recognized automatically and added to the list of components to connect. The token response will look like this: </p>
+<p>As your own client also has a connector id, this will be automatically added:</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="mi">77</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"connections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"connector_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.pending"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"connector_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1467287667226799671</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.pending"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/connect/v2/links/cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"process"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/connect/v2/process/links/cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<p>The response contains a URL you have to redirect the user to (<code class="prettyprint">uri</code> field). You can provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting the user. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter <code class="prettyprint">ibsstoken</code>.</p>
+<aside class="warning">The link is only valid for a limited amount of time, given in <i>expires_in</i>.</aside>
 
-<aside class="warning">The token is only valid for a limited amount of time, given in <i>expires_in</i>.</aside> 
+<p>To continue, you have to redirect the user to the URL given in the <code class="prettyprint">links</code> section as <code class="prettyprint">process</code>. You should also provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting there. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter <code class="prettyprint">iblink</code>. <strong>After that you want to trigger the OAuth flow immediately as this didn&rsquo;t happen yet.</strong></p>
 
-<h3 id="example-2-adding-a-new-ebay-store-to-an-already-authorised-user">Example 2: Adding a new eBay store to an already authorised user</h3>
+<h3 id="example-2-add-an-ebay-store-to-an-authorised-user">Example 2: Add an ebay store to an authorised user</h3>
 
-<aside class="notice">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i>.</aside>
-<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> -d <span class="s1">'{
-    "component_ids": [6],
-    "action": "create"
-}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
+<p>Prerequisites:</p>
+
+<ul>
+<li>You already obtained an access token for an authorised user via the OAuth flow</li>
+<li>You obtained the existing connections and/or links of a user (see <a href="https://swaggerhub.com/api/thommy/connect_api/2.0">swagger documentation</a>) and know their <code class="prettyprint">connection IDs</code>. </li>
+</ul>
+<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer YOUR_TOKEN"</span> -d <span class="s1">'{
+    "connections": [
+        {
+            "id": "SOME-UUID",
+            "connector_id": 6
+        }
+    ]
+}'</span> <span class="s2">"https://api.dataconnect.io/connect/v2/users/SOME-USER-ID/links"</span>
 </code></pre>
 
 <p>This will:</p>
 
 <ul>
-<li>Add a new eBay (component id 6) store to the authenticated user&rsquo;s account</li>
-<li>Activate your client for the new eBay store</li>
+<li>Activate your client for the existing eBay store with connection ID <code class="prettyprint">SOME-UUID</code> by user <code class="prettyprint">SOME-USER-ID</code></li>
 </ul>
 
-<p>The token is created in the Selfservice application. The token response will look like this: </p>
+<p>As your own client also has a connector id, this will be automatically added:</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOME_USER_ID"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="mi">77</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"connections"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOME-UUID"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"connector_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.valid"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"connector_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1467287667226799671</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.pending"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/connect/v2/links/cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"process"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/connect/v2/process/links/cc51d6f69ac4c5d00fa0af05aaa977201c432248"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
-<h3 id="example-3-adding-an-existing-ebay-store-to-an-already-authorised-user">Example 3: Adding an existing eBay store to an already authorised user</h3>
+<p>To continue, you have to redirect the user to the URL given in the <code class="prettyprint">links</code> section as <code class="prettyprint">process</code>. You should also provide a <code class="prettyprint">redirect_uri</code> as GET parameter when redirecting there. If given, this is where the user will be lead when the process finished. The token will be added as the GET parameter <code class="prettyprint">iblink</code>.</p>
 
-<aside class="notice">For this example you need a valid Access Token for a user with the scope <i>user.instances.write</i> and <i>user.instances.read</i>.</aside>
-
-<p>With the user&rsquo;s ID at hand, first we need to get the connections that the user currently has:</p>
-<pre class="highlight shell"><code>curl -X GET -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> <span class="s2">"https://api.itembase.com/v1/users/SOME_USER_ID/instances"</span>
-</code></pre>
-
-<p>This will list all the connections of the user:</p>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"component_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"component_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connection.valid"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"meta"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5/meta"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connections"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/1768e0de-0c78-4a5e-bce3-44d2d8a63fa5/connections"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"64cda8a7-2629-4ece-ba0e-5ff3b70aaec4"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"component_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">78</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"component_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solution"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"self"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"meta"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4/meta"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"connections"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/users/SOME_USER_ID/instances/64cda8a7-2629-4ece-ba0e-5ff3b70aaec4/connections"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-
-<p>The first entry with the instance id <code class="prettyprint">1768e0de-0c78-4a5e-bce3-44d2d8a63fa5</code> is an ebay connection. Let&rsquo;s assume we want to connect this to our solution. We use the self service with our AccessToken again:</p>
-<pre class="highlight shell"><code>curl -X POST -H <span class="s2">"Content-Type: application/json"</span> -H <span class="s2">"Authorization: Bearer ACCESSTOKEN"</span> -d <span class="s1">'{
-    "instance_id": "1768e0de-0c78-4a5e-bce3-44d2d8a63fa5",
-    "action": "create"
-}'</span> <span class="s2">"https://selfservice.itembase.com/v1/tokens"</span>
-</code></pre>
-
-<p>This will:</p>
-
-<ul>
-<li>Activate your client for the existing eBay store</li>
-</ul>
-
-<p>Everything else works as in the previous examples. The token response will look like this: </p>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR_CLIENT_ID"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SOME_USER_ID"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"component_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="mi">77</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"instance_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1768e0de-0c78-4a5e-bce3-44d2d8a63fa5"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"enable_whisper_signup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://selfservice.itembase.com/process/85b6833533b1d7bcede0d9be39c8d14dadc9c781"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"additional_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<aside class="warning">The token is only valid for a limited amount of time, given in <i>expires_in</i>.</aside>
 
           <h1 id="reading-and-writing-data">Reading and Writing Data</h1>
 
